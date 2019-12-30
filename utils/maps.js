@@ -19,6 +19,8 @@ function mapList() {
   return Object.keys(state['maps']);
 }
 
+// For some reason importing getUserName and isAdmin in this file
+// doesnt work... manually implement the checks.
 function addMap(map, context) {
   if(!(state['admins'].includes(context['username'])))
     return;
