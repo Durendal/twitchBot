@@ -1,4 +1,4 @@
-const { state } = require('../config');
+const { state } = require('src/config');
 
 function isAdmin(user) {
   return state['admins'].includes(user);

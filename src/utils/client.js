@@ -1,5 +1,5 @@
 const tmi = require('tmi.js');
-const { client } = require('../config');
+const { client } = require('src/config');
 
 const twitch = new tmi.client(client);
 

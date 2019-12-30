@@ -1,5 +1,5 @@
-const { state } = require('../config');
-const { client } = require('./client');
+const { state } = require('src/config');
+const { client } = require('src/utils/client');
 
 function checkMap(map, target) {
   if(mapList().includes(map)) {

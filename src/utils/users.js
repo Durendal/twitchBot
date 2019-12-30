@@ -1,8 +1,8 @@
 require('./admins');
-const { checkMap } = require('./maps');
-const { logMessage } = require('./logging');
-const { client } = require('./client');
-const { state } = require('../config');
+const { checkMap } = require('src/utils/maps');
+const { logMessage } = require('src/utils/logging');
+const { client } = require('src/utils/client');
+const { state } = require('src/config');
 
 function checkUser(username, target) {
   if(!(username in state['voters'])) {

@@ -1,4 +1,5 @@
-const { state } = require('../config');
+const { state } = require('src/config');
+const { mapList } = require('src/utils').maps;
 
 function topMap() {
   const result = mapList()

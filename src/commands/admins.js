@@ -1,7 +1,8 @@
-const { logMessage } = require('../utils').logging;
-const { state } = require('../config');
-const { getUserName } = require('../utils').users;
-const { client } = require('../utils').client;
+const { logMessage } = require('src/utils').logging;
+const { state } = require('src/config');
+const { getUserName } = require('src/utils').users;
+const { client } = require('src/utils').client;
+const { isAdmin } = require('src/utils').admins;
 
 function checkContext(target, context) {
   if(!isAdmin(getUserName(context)))

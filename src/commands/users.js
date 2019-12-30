@@ -1,8 +1,8 @@
-const { checkMap } = require('../utils/maps');
-const { checkUser } = require('../utils/users');
-const { state } = require('../config');
-const { logMessage } = require('../utils').logging;
-const { client } = require('../utils').client;
+const { checkMap } = require('src/utils/maps');
+const { checkUser } = require('src/utils/users');
+const { state } = require('src/config');
+const { logMessage } = require('src/utils').logging;
+const { client } = require('src/utils').client;
 
 function castVote(username, map, target) {
   // Ensure the map and user are valid

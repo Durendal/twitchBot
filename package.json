@@ -9,6 +9,7 @@
   "author": "durendal",
   "license": "GPL-3.0-or-later",
   "dependencies": {
+    "app-module-path": "^2.2.0",
     "tmi.js": "^1.5.0",
     "winston": "^3.2.1"
   }

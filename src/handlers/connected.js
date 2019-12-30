@@ -1,4 +1,4 @@
-const { addLog } = require('../utils/logging');
+const { addLog } = require('src/utils/logging');
 function onConnectedHandler (addr, port) {
   addLog(`* Connected to ${addr}:${port}`);
 }

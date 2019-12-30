@@ -1,7 +1,7 @@
-const { isAdmin } = require('./admins');
-const { topMap } = require('./maps');
-const { state } = require('../config');
-const { client } = require('./client');
+const { isAdmin } = require('src/utils/admins');
+const { topMap } = require('src/utils/maps');
+const { state } = require('src/config');
+const { client } = require('src/utils/client');
 
 function newRound(sender) {
   if(!isAdmin(sender))

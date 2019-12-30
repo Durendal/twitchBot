@@ -1,8 +1,9 @@
-const { client, logging } = require('../utils');
-const { state } = require('../config');
-const { users, admins, maps, rounds } = require('../commands');
-const { getUserName } = require('../utils').users;
-const { isOpen } = require('../utils').rounds;
+const { client, logging } = require('src/utils');
+const { state } = require('src/config');
+const { users, admins, maps, rounds } = require('src/commands');
+const { getUserName } = require('src/utils').users;
+const { isOpen } = require('src/utils').rounds;
+const { mapList } = require('src/utils').maps;
 
 // Called every time a message comes in
 function onMessageHandler (target, context, msg, self) {
@@ -30,7 +31,7 @@ function onMessageHandler (target, context, msg, self) {
       logging.logMessage(target, `Votes: ${JSON.stringify(state["voters"])}`);
       break;
     case "!maps":
-      const list = maps.mapList().join(', ');
+      const list = mapList().join(', ');
       client.client.say(target, `Map list: ${list}`);
       break;
     case "!clear":
