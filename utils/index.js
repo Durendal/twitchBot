@@ -1,7 +1,7 @@
-const { isAdmin, checkContext } = require('./admins');
+const { isAdmin, checkContext, addMod, delMod, listMods } = require('./admins');
 const { viewResults, newRound, isOpen } = require('./rounds');
 const { logMessage } = require('./logging');
-const { topMap, checkMap, mapList } = require('./maps');
+const { topMap, checkMap, mapList, addMap, delMap } = require('./maps');
 const { checkUser, castVote, clearVote, getUserName } = require('./user');
 const { client } = require('./client');
 
