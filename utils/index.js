@@ -24,7 +24,9 @@ module.exports = {
   maps: {
     topMap,
     checkMap,
-    mapList
+    mapList,
+    addMap,
+    delMap,
   },
   user: {
     checkUser,
