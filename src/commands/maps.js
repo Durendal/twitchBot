@@ -1,5 +1,7 @@
 const { state } = require('src/config');
 const { mapList } = require('src/utils').maps;
+const { isAdmin } = require('src/utils').admins;
+const { getUserName } = require('src/utils').users;
 
 function topMap() {
   const result = mapList()
@@ -10,7 +12,7 @@ function topMap() {
 // For some reason importing getUserName and isAdmin in this file
 // doesnt work... manually implement the checks.
 function addMap(map, context) {
-  if(!(state['admins'].includes(context['username'])))
+  if(!isAdmin(getUserName(context)))
     return;
   state['maps'][map] = 0
 
@@ -25,7 +27,7 @@ function addMap(map, context) {
 }
 
 function delMap(map, context) {
-  if(!(state['admins'].includes(context['username'])))
+  if(!isAdmin(getUserName(context)))
     return;
   delete state['maps'][map];
 }
