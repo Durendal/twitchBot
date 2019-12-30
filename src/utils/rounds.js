@@ -1,15 +1,7 @@
 const { isAdmin } = require('./admins');
-const { topMap, mapList } = require('./maps');
+const { topMap } = require('./maps');
 const { state } = require('../config');
 const { client } = require('./client');
-
-function viewResults(target) {
-  var results = '';
-  mapList()
-      .forEach(map => results += `${map}: ${state['maps'][map]}, `
-  );
-  client.say(target, results);
-}
 
 function newRound(sender) {
   if(!isAdmin(sender))
@@ -25,7 +17,6 @@ function isOpen() {
 }
 
 module.exports = {
-  viewResults,
   newRound,
   isOpen,
 };

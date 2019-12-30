@@ -1,11 +1,7 @@
-const { logMessage } = require('./logging');
+const { logMessage } = require('../utils').logging;
 const { state } = require('../config');
-const { getUserName } = require('./user');
-const { client } = require('./client');
-
-function isAdmin(user) {
-  return state['admins'].includes(user);
-}
+const { getUserName } = require('../utils').users;
+const { client } = require('../utils').client;
 
 function checkContext(target, context) {
   if(!isAdmin(getUserName(context)))
@@ -37,9 +33,8 @@ function listMods(target, context) {
 }
 
 module.exports = {
-  isAdmin,
   checkContext,
   addMod,
   delMod,
-  listMods
-}
+  listMods,
+};

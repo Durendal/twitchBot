@@ -1,5 +1,8 @@
-const { client,  user, admins, logging, maps, rounds } = require('../utils');
+const { client, logging } = require('../utils');
 const { state } = require('../config');
+const { users, admins, maps, rounds } = require('../commands');
+const { getUserName } = require('../utils').users;
+const { isOpen } = require('../utils').rounds;
 
 // Called every time a message comes in
 function onMessageHandler (target, context, msg, self) {
@@ -8,7 +11,7 @@ function onMessageHandler (target, context, msg, self) {
   if (self || !(msg.startsWith('!'))) { return; } // Ignore messages from the bot
 
   // Extract username from context
-  const username = user.getUserName(context);
+  const username = getUserName(context);
   var usern = '';
   var map = '';
 
@@ -16,14 +19,14 @@ function onMessageHandler (target, context, msg, self) {
   const commandName = msg.trim().split(" ")[0];
   switch(commandName) {
     case "!vote":
-      if(!rounds.isOpen()) {
+      if(!isOpen()) {
         logging.addLog(`${username} attempted to vote while voting was closed`, 'error');
         client.client.say(target, `Sorry ${username} Voting is currently closed.`);
         return;
       }
       map = msg.trim().split(" ").slice(1).join(" ");
       logging.addLog(`${username} attempting to vote for ${map}`)
-      user.castVote(username, map, target);
+      users.castVote(username, map, target);
       logging.logMessage(target, `Votes: ${JSON.stringify(state["voters"])}`);
       break;
     case "!maps":
@@ -31,7 +34,7 @@ function onMessageHandler (target, context, msg, self) {
       client.client.say(target, `Map list: ${list}`);
       break;
     case "!clear":
-      user.clearVote(username, target);
+      users.clearVote(username, target);
       break;
     case "!results":
       rounds.viewResults(target);

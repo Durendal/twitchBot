@@ -1,16 +1,8 @@
-require('./admins');
-const { checkMap } = require('./maps');
-const { logMessage } = require('./logging');
-const { client } = require('./client');
+const { checkMap } = require('../utils/maps');
+const { checkUser } = require('../utils/users');
 const { state } = require('../config');
-
-function checkUser(username, target) {
-  if(!(username in state['voters'])) {
-    return true;
-  }
-  client.say(target, `${username} has already cast a vote.`);
-  return false;
-}
+const { logMessage } = require('../utils').logging;
+const { client } = require('../utils').client;
 
 function castVote(username, map, target) {
   // Ensure the map and user are valid
@@ -33,13 +25,7 @@ function clearVote(username, target) {
   client.say(target, `${username} has not yet cast a vote to clear.`);
 }
 
-function getUserName(context) {
-  return context['username'];
-}
-
 module.exports = {
-  checkUser,
   castVote,
   clearVote,
-  getUserName,
-};
+}
