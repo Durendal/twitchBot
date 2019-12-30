@@ -1,0 +1,16 @@
+// Define configuration options
+const client = {
+  debug: true,
+  connection: {
+    reconnect: true,
+  },
+  identity: {
+    username: "YOUR_USERNAME",
+    password: "YOUR_OAUTH_TOKEN"
+  },
+  channels: [
+    "YOUR_CHANNEL",
+  ]
+};
+
+module.exports = { client };
