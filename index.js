@@ -1,4 +1,4 @@
-const { client } = require('./utils');
+const { client } = require('./utils').client;
 const { onMessageHandler, onConnectedHandler } = require('./handlers');
 
 // Register our event handlers (defined below)

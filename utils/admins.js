@@ -16,13 +16,14 @@ function checkContext(target, context) {
 function addMod(user, context) {
   if(!isAdmin(getUserName(context)))
     return;
-  state['admins'].append(user)
+  state['admins'].push(user)
 }
 
 function delMod(user, context) {
   if(!isAdmin(getUserName(context)))
     return;
-  const index = array.indexOf(5);
+
+  const index = state['admins'].indexOf(user);
 
   if (index > -1)
     state['admins'].splice(index, 1);

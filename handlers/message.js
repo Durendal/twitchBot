@@ -1,4 +1,4 @@
-const { client, admins, user, logging, maps, rounds } = require('../utils');
+const { client,  user, admins, logging, maps, rounds } = require('../utils');
 const { state } = require('../config');
 
 // Called every time a message comes in
@@ -9,22 +9,24 @@ function onMessageHandler (target, context, msg, self) {
 
   // Extract username from context
   const username = user.getUserName(context);
+  var usern = '';
+  var map = '';
 
   // Parse command out of message
   const commandName = msg.trim().split(" ")[0];
   switch(commandName) {
     case "!vote":
       if(!rounds.isOpen()) {
-        client.say(target, `Sorry ${username} Voting is currently closed.`);
+        client.client.say(target, `Sorry ${username} Voting is currently closed.`);
         return;
       }
-      const map = msg.trim().split(" ").slice(1).join(" ");
+      map = msg.trim().split(" ").slice(1).join(" ");
       user.castVote(username, map, target);
       logging.logMessage(target, `Votes: ${JSON.stringify(state["voters"])}`);
       break;
     case "!maps":
       const list = maps.mapList().join(', ');
-      client.say(target, `Map list: ${list}`);
+      client.client.say(target, `Map list: ${list}`);
       break;
     case "!clear":
       user.clearVote(username, target);
@@ -33,10 +35,29 @@ function onMessageHandler (target, context, msg, self) {
       rounds.viewResults(target);
       break;
     case "!top":
-      client.say(target, `Top Map: ${maps.topMap()}`);
+      client.client.say(target, `Top Map: ${maps.topMap()}`);
       break;
     case "!context":
       admins.checkContext(target, context);
+      break;
+    case "!addmod":
+      usern = msg.trim().split(" ").slice(1).join(" ");
+      admins.addMod(usern, context);
+      break;
+    case "!delmod":
+      usern = msg.trim().split(" ").slice(1).join(" ");
+      admins.delMod(usern, context);
+      break;
+    case "!listmods":
+      admins.listMods(target, context);
+      break;
+    case "!addmap":
+      map = msg.trim().split(" ").slice(1).join(" ");
+      maps.addMap(map, context);
+      break;
+    case "!delmap":
+      map = msg.trim().split(" ").slice(1).join(" ");
+      maps.delMap(map, context);
       break;
     default:
       logging.logMessage(target, `* Unknown command ${commandName}`);

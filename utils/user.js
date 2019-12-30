@@ -1,3 +1,4 @@
+require('./admins');
 const { checkMap } = require('./maps');
 const { logMessage } = require('./logging');
 const { client } = require('./client');
@@ -40,5 +41,5 @@ module.exports = {
   checkUser,
   castVote,
   clearVote,
-  getUserName
+  getUserName,
 };

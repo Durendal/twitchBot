@@ -1,6 +1,5 @@
 const { state } = require('../config');
 const { client } = require('./client');
-const { getUserName } = require('./user');
 
 function topMap() {
   const result = mapList()
@@ -21,7 +20,7 @@ function mapList() {
 }
 
 function addMap(map, context) {
-  if(!isAdmin(getUserName(context)))
+  if(!(state['admins'].includes(context['username'])))
     return;
   state['maps'][map] = 0
 
@@ -37,7 +36,7 @@ function addMap(map, context) {
 }
 
 function delMap(map, context) {
-  if(!isAdmin(getUserName(context)))
+  if(!(state['admins'].includes(context['username'])))
     return;
   delete state['maps'][map];
 }
