@@ -4,7 +4,7 @@ This is a simple bot for twitch. Being developed for an up-coming company of her
 
 # Use
 
-In order to use the bot copy the `client.js.example` file in the `config/` directory to `client.js` and fill in the values for your username, oauth token and channels you wish to join. Then simply run `npm run test` and it should connect to your channels! You can add or modify administrators from within `config/state.js` Cheers!
+In order to use the bot copy the `src/config/client.js.example` file to `src/config/client.js` and fill in the values for your username, oauth token and channels you wish to join. Then simply run `npm run test` and it should connect to your channels! You can add or modify administrators from within `src/config/state.js` Cheers!
 
 # Commands
 
