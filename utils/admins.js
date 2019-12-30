@@ -11,12 +11,7 @@ function checkContext(target, context) {
   logMessage(target, `Context: ${JSON.stringify(context)}`);
 }
 
-function getUserName(context) {
-  return context['username'];
-}
-
 module.exports = {
   isAdmin,
   checkContext,
-  getUserName,
 }

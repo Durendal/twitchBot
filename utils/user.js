@@ -32,8 +32,13 @@ function clearVote(username, target) {
   client.say(target, `${username} has not yet cast a vote to clear.`);
 }
 
+function getUserName(context) {
+  return context['username'];
+}
+
 module.exports = {
   checkUser,
   castVote,
-  clearVote
+  clearVote,
+  getUserName
 };
