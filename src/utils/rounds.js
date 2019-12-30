@@ -13,7 +13,9 @@ function newRound(sender) {
 }
 
 function isOpen() {
-  return Math.ceil(Math.random() * 10) % 2 == 0;
+  // Uncomment below line while testing to simulate times when voting is closed
+  //return Math.ceil(Math.random() * 10) % 2 == 0;
+  return true;
 }
 
 module.exports = {
