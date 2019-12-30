@@ -1,5 +1,6 @@
+const { addLog } = require('../utils/logging');
 function onConnectedHandler (addr, port) {
-  console.log(`* Connected to ${addr}:${port}`);
+  addLog(`* Connected to ${addr}:${port}`);
 }
 
 module.exports = { onConnectedHandler };

@@ -1,6 +1,6 @@
 const { isAdmin, checkContext, addMod, delMod, listMods } = require('./admins');
 const { viewResults, newRound, isOpen } = require('./rounds');
-const { logMessage } = require('./logging');
+const { logMessage, addLog, logger } = require('./logging');
 const { topMap, checkMap, mapList, addMap, delMap } = require('./maps');
 const { checkUser, castVote, clearVote, getUserName } = require('./user');
 const { client, parseMessage } = require('./client');
@@ -19,14 +19,16 @@ module.exports = {
     isOpen
   },
   logging: {
-    logMessage
+    logMessage,
+    addLog,
+    logger
   },
   maps: {
     topMap,
     checkMap,
     mapList,
     addMap,
-    delMap,
+    delMap
   },
   user: {
     checkUser,

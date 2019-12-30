@@ -17,10 +17,12 @@ function onMessageHandler (target, context, msg, self) {
   switch(commandName) {
     case "!vote":
       if(!rounds.isOpen()) {
+        logging.addLog(`${username} attempted to vote while voting was closed`, 'error');
         client.client.say(target, `Sorry ${username} Voting is currently closed.`);
         return;
       }
       map = msg.trim().split(" ").slice(1).join(" ");
+      logging.addLog(`${username} attempting to vote for ${map}`)
       user.castVote(username, map, target);
       logging.logMessage(target, `Votes: ${JSON.stringify(state["voters"])}`);
       break;
