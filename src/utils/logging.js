@@ -1,4 +1,5 @@
 const winston = require('winston');
+const { state } = require('src/config');
 
 const logger = winston.createLogger({
   level: 'info',
@@ -21,10 +22,11 @@ function logMessage(target, message) {
 }
 
 function addLog(message, level = 'info') {
-  logger.log({
-  level,
-  message
-});
+  if(state['logging'])
+    logger.log({
+      level,
+      message
+    });
 }
 
 module.exports = {

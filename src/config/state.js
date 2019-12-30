@@ -10,6 +10,7 @@ const state = {
   },
   round: 1,
   winningMaps: [],
+  logging: true,
 };
 
 module.exports = { state };
