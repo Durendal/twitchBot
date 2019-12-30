@@ -2,6 +2,7 @@ const { state } = require('src/config');
 const { mapList } = require('src/utils').maps;
 const { isAdmin } = require('src/utils').admins;
 const { getUserName } = require('src/utils').users;
+const { addLog } = require('src/utils').logging;
 
 function topMap() {
   const result = mapList()
@@ -30,6 +31,14 @@ function delMap(map, context) {
   if(!isAdmin(getUserName(context)))
     return;
   delete state['maps'][map];
+  Object.keys(state['voters'])
+    .forEach(user => {
+      if(state['voters'][user] === map) {
+        addLog(`${user} being cleared with ${map} `);
+        delete state['voters'][user];
+      }
+    });
+
 }
 
 module.exports = {
