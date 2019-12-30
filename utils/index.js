@@ -8,7 +8,10 @@ const { client } = require('./client');
 module.exports = {
   admins: {
     isAdmin,
-    checkContext
+    checkContext,
+    addMod,
+    delMod,
+    listMods
   },
   rounds: {
     viewResults,
