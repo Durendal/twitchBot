@@ -5,7 +5,13 @@ const { getUserName } = require('src/utils').users;
 const { isOpen } = require('src/utils').rounds;
 const { mapList } = require('src/utils').maps;
 
-// Called every time a message comes in
+/**
+  Execute every time a message comes in
+  @param {String} target - The channel the message was received in
+  @param {Object} context - The context of the user who sent the message
+  @param {String} msg - The message sent by the user
+  @param {Object} self - Our bot
+ */
 function onMessageHandler (target, context, msg, self) {
 
   // Ignore if message is a command or sent from our bot
