@@ -2,9 +2,19 @@
 
 This is a simple bot for twitch. Being developed for an up-coming company of heroes 2 tournament it will allow viewers to vote on which maps contestants will play on. It's currently a work in progress.
 
-# Use
+# Install
 
-In order to use the bot copy the `src/config/client.js.example` file to `src/config/client.js` and fill in the values for your username, oauth token and channels you wish to join. Then simply run `npm run test` and it should connect to your channels! You can add or modify administrators from within `src/config/state.js` Cheers!
+To install and run twitchBot you must have node installed. This app was developed with node v12.14.0 and npm v6.13.4 and has not been tested outside of that.
+
+Steps:
+
+* `$ git clone https://github.com/Durendal/twitchBot.git`
+* `$ cd twitchBot`
+* `$ npm install`
+* `$ cp src/config/client.js.example src/config/client.js`
+* Update `src/config/client.js` with your username, oauth token, and channels you wish to join
+* `$ npm run test`
+
 
 # Commands
 
