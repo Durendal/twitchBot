@@ -1,4 +1,4 @@
-const { checkContext, addMod, delMod, listMods } = require('src/commands/admins');
+const { checkContext, checkState, addMod, delMod, listMods } = require('src/commands/admins');
 const { topMap, addMap, delMap } = require('src/commands/maps');
 const { viewResults } = require('src/commands/rounds');
 const { castVote, clearVote } = require('src/commands/users');
@@ -6,6 +6,7 @@ const { castVote, clearVote } = require('src/commands/users');
 module.exports = {
   admins: {
     checkContext,
+    checkState,
     addMod,
     delMod,
     listMods,

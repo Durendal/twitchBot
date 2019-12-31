@@ -16,6 +16,17 @@ function checkContext(target, context) {
 }
 
 /**
+  Write the state of the bot to the bots console.log
+  @param {String} target - The channel the user wrote the command in
+  @param {Object} context - The context of the user who wrote the command
+ */
+function checkState(target, context) {
+  if(!isAdmin(target, context))
+    return;
+  logMessage(target, `State: ${JSON.stringify(state)}`);
+}
+
+/**
   Add a user to the list of administrators
   @param {String} user - The name of the user to add as an admin
   @param {String} target - The twitch channel to add the mod to
@@ -57,6 +68,7 @@ function listMods(target, context) {
 
 module.exports = {
   checkContext,
+  checkState,
   addMod,
   delMod,
   listMods,

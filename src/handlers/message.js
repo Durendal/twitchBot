@@ -52,6 +52,9 @@ function onMessageHandler (target, context, msg, self) {
     case "!context":
       admins.checkContext(target, context);
       break;
+    case "!state":
+      admins.checkState(target, context);
+      break;
     case "!addmod":
       usern = msg.trim().split(" ").slice(1).join(" ");
       admins.addMod(usern, target, context);
