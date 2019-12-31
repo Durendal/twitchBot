@@ -1,3 +1,4 @@
+// Data store for the bot
 const state = {
   voters: {},
   players: {},

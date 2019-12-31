@@ -4,10 +4,12 @@ const client = {
   connection: {
     reconnect: true,
   },
+  // Twitch credentials used to authenticate the bot
   identity: {
     username: "YOUR_USERNAME",
     password: "YOUR_OAUTH_TOKEN"
   },
+  // A list of channels you want the bot to join
   channels: [
     "YOUR_CHANNEL",
   ]
