@@ -22,7 +22,7 @@ function checkUser(username, target) {
   @param {Object} context - The user context to extract a username from
  */
 function getUserName(context) {
-  return context['username'];
+  return context['username'] || context['display-name'];
 }
 
 module.exports = {

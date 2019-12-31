@@ -2,7 +2,7 @@
 const state = {
   voters: {},
   players: {},
-  admins: ["durendalz", "chihuahua_charity"],
+  admins: ["chihuahua_charity"],
   maps: {
     'langreskaya': 0,
     'crossing in the woods': 0,

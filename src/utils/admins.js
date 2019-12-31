@@ -10,7 +10,7 @@ const { getUserName } = require('./users');
 */
 function isAdmin(target, context) {
 
-  user = getUserName(target, context);
+  var user = getUserName(target, context);
 
   addLog(`Attempting to verify ${user} is an Administrator`, 'info');
 
