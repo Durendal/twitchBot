@@ -1,5 +1,6 @@
 const { state } = require('src/config');
-const { addLog } = require('src/utils').logging;
+const { addLog } = require('./logging');
+const { getUserName } = require('./users');
 
 
 /**
@@ -9,7 +10,7 @@ const { addLog } = require('src/utils').logging;
 */
 function isAdmin(target, context) {
 
-  user = getUserName(context);
+  user = getUserName(target, context);
 
   addLog(`Attempting to verify ${user} is an Administrator`, 'info');
 

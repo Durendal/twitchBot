@@ -34,7 +34,7 @@ function addMod(user, target, context) {
   @param {Object} context - The context of the user removing the mod
  */
 function delMod(user, target, context) {
-  if(!isAdmin(getUserName(context)))
+  if(!isAdmin(target, context))
     return;
 
   const index = state['admins'].indexOf(user);
@@ -49,7 +49,7 @@ function delMod(user, target, context) {
   @param {Object} context - The context of the user sending the command
  */
 function listMods(target, context) {
-  if(!isAdmin(getUserName(context)))
+  if(!isAdmin(target, context))
     return;
 
   client.say(target, `Mods: ${state['admins'].join(', ')}`);

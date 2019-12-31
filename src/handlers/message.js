@@ -54,22 +54,22 @@ function onMessageHandler (target, context, msg, self) {
       break;
     case "!addmod":
       usern = msg.trim().split(" ").slice(1).join(" ");
-      admins.addMod(usern, context);
+      admins.addMod(usern, target, context);
       break;
     case "!delmod":
       usern = msg.trim().split(" ").slice(1).join(" ");
-      admins.delMod(usern, context);
+      admins.delMod(usern, target, context);
       break;
     case "!listmods":
       admins.listMods(target, context);
       break;
     case "!addmap":
       map = msg.trim().split(" ").slice(1).join(" ");
-      maps.addMap(map, context);
+      maps.addMap(map, target, context);
       break;
     case "!delmap":
       map = msg.trim().split(" ").slice(1).join(" ");
-      maps.delMap(map, context);
+      maps.delMap(map, target, context);
       break;
     default:
       logging.logMessage(target, `* Unknown command ${commandName}`);
