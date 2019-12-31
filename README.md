@@ -36,9 +36,9 @@ In order to use the bot copy the `src/config/client.js.example` file to `src/con
 
 # Planned Improvements:
 
-    * Generic votes not just maps
-    * Integration with twitch channel administrators
-    * Better documentation Kappa
-    * Multi-channel support
-    * eggdrop style random banter and absurdities
-    * an easter egg or two.
+* Generic votes not just maps
+* Integration with twitch channel administrators
+* Better documentation Kappa
+* Multi-channel support
+* eggdrop style random banter and absurdities
+* an easter egg or two.
