@@ -1,0 +1,13 @@
+const ADMIN_ADD = 'admins/ADMIN_ADD';
+const ADMIN_DEL = 'admins/ADMIN_DEL';
+const ADMIN_MOD_LEVEL = 'admins/ADMIN_MOD_LEVEL';
+const ADMIN_ADD_CHANNEL = 'admins/ADMIN_ADD_CHANNEL';
+const ADMIN_DEL_CHANNEL = 'admins/ADMIN_DEL_CHANNEL';
+
+export {
+  ADMIN_ADD,
+  ADMIN_DEL,
+  ADMIN_MOD_LEVEL,
+  ADMIN_ADD_CHANNEL,
+  ADMIN_DEL_CHANNEL,
+};
