@@ -118,6 +118,9 @@ const adminReducer = (state = initialAdminState, action) => {
           }
         }
       };
+
+    default:
+      return state;
   };
 };
 

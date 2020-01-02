@@ -183,6 +183,9 @@ const pollReducer = (state = initialPollState, action) => {
         ...state,
         polls: poll_active_false
     };
+    
+    default:
+      return state;
   };
 };
 
