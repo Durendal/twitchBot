@@ -1,7 +1,7 @@
-const tmi = require('tmi.js');
-const { client } = require('src/config');
+import tmi from 'tmi.js';
+import { client as config } from 'src/config';
 
-const twitch = new tmi.client(client);
+const client = new tmi.client(config);
 
 /**
   Parse user output out of a sent message
@@ -11,7 +11,7 @@ function parseMessage(msg) {
   return msg.trim().split(" ").slice(1).join(" ");
 }
 
-module.exports = {
-  client: twitch,
+export {
+  client,
   parseMessage,
 };

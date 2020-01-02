@@ -1,8 +1,8 @@
-const { state } = require('src/config');
-const { mapList } = require('src/utils').maps;
-const { isAdmin } = require('src/utils').admins;
-const { getUserName } = require('src/utils').users;
-const { addLog } = require('src/utils').logging;
+import { state } from 'src/config';
+import { mapList } from 'src/utils/maps';
+import { isAdmin } from 'src/utils/admins';
+import { getUserName } from 'src/utils/users';
+import { addLog } from 'src/utils/logging';
 
 /**
   Write the current highest voted map to twitch
@@ -54,7 +54,7 @@ function delMap(map, target, context) {
 
 }
 
-module.exports = {
+export {
   topMap,
   addMap,
   delMap,

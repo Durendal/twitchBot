@@ -1,7 +1,7 @@
-const { isAdmin } = require('src/utils/admins');
-const { topMap } = require('src/utils/maps');
-const { state } = require('src/config');
-const { client } = require('src/utils/client');
+import { isAdmin } from 'src/utils/admins';
+import { topMap } from 'src/utils/maps';
+import { state } from 'src/config';
+import { client } from 'src/utils/client';
 
 /**
   Verify if a option is in our list of elligible options
@@ -58,7 +58,7 @@ function getPoll(target, poll) {
   return state['channels'][target]['polls'][poll]
 }
 
-module.exports = {
+export {
   newRound,
   isOpen,
   getPoll,

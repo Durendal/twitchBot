@@ -1,8 +1,7 @@
-require('./admins');
-const { checkMap } = require('src/utils/maps');
-const { logMessage } = require('src/utils/logging');
-const { client } = require('src/utils/client');
-const { state } = require('src/config');
+import { checkMap } from 'src/utils/maps';
+import { logMessage } from 'src/utils/logging';
+import { client } from 'src/utils/client';
+import { state } from 'src/config';
 
 /**
   Check if a given user has already cast a vote
@@ -25,7 +24,7 @@ function getUserName(context) {
   return context['username'] || context['display-name'];
 }
 
-module.exports = {
+export {
   checkUser,
   getUserName,
 };

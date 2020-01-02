@@ -1,26 +1,11 @@
-const { checkContext, checkState, addMod, delMod, listMods } = require('src/commands/admins');
-const { topMap, addMap, delMap } = require('src/commands/maps');
-const { viewResults } = require('src/commands/rounds');
-const { castVote, clearVote } = require('src/commands/users');
+import * as admins from 'src/commands/admins';
+import * as maps from 'src/commands/maps';
+import * as rounds from 'src/commands/rounds';
+import * as users from 'src/commands/users';
 
-module.exports = {
-  admins: {
-    checkContext,
-    checkState,
-    addMod,
-    delMod,
-    listMods,
-  },
-  maps: {
-    topMap,
-    addMap,
-    delMap,
-  },
-  rounds: {
-    viewResults,
-  },
-  users: {
-    castVote,
-    clearVote,
-  }
-};
+export {
+  admins,
+  maps,
+  rounds,
+  users,
+}

@@ -1,6 +1,6 @@
-const { state } = require('src/config');
-const { addLog } = require('./logging');
-const { getUserName } = require('./users');
+import { state } from 'src/config';
+import { addLog } from './logging';
+import { getUserName } from './users';
 
 
 /**
@@ -23,6 +23,6 @@ function isAdmin(target, context) {
   return isModUp || state['admins'].includes(user);
 }
 
-module.exports = {
+export {
   isAdmin,
 }

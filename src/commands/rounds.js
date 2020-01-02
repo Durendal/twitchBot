@@ -1,6 +1,6 @@
-const { client } = require('src/utils').client;
-const { mapList } = require('src/utils').maps;
-const { state } = require('src/config');
+import { client } from 'src/utils/client';
+import { mapList } from 'src/utils/maps';
+import { state } from 'src/config';
 
 /**
   View the list of maps and their respective votes for the current round
@@ -14,6 +14,6 @@ function viewResults(target) {
   client.say(target, results);
 }
 
-module.exports = {
+export {
   viewResults,
 }

@@ -1,5 +1,5 @@
-const winston = require('winston');
-const { state } = require('src/config');
+import winston from 'winston';
+import { state } from 'src/config';
 
 // Initialize logger
 const logger = winston.createLogger({
@@ -41,7 +41,7 @@ function addLog(message, level = 'info') {
     });
 }
 
-module.exports = {
+export {
   logMessage,
   addLog,
   logger,

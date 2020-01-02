@@ -1,5 +1,5 @@
-const { state } = require('src/config');
-const { client } = require('src/utils/client');
+import { state } from 'src/config';
+import { client } from 'src/utils/client';
 
 /**
   Verify if a map name is in our list of elligible maps
@@ -15,7 +15,6 @@ function checkMap(map, target) {
   return false;
 }
 
-
 /**
   Returns a list of all currently elligible maps to vote on
  */
@@ -23,7 +22,7 @@ function mapList() {
   return Object.keys(state['maps']);
 }
 
-module.exports = {
+export {
   checkMap,
   mapList,
 };

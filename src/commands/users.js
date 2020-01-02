@@ -1,9 +1,9 @@
-const { checkMap } = require('src/utils/maps');
-const { checkUser } = require('src/utils/users');
-const { state } = require('src/config');
-const { logMessage } = require('src/utils').logging;
-const { client } = require('src/utils').client;
-const { isOpen } = require('src/utils').rounds;
+import { checkMap } from 'src/utils/maps';
+import { checkUser } from 'src/utils/users';
+import { state } from 'src/config';
+import { logMessage } from 'src/utils/logging';
+import { client } from 'src/utils/client';
+import { isOpen } from 'src/utils/rounds';
 
 /**
   Cast a vote for a map
@@ -28,7 +28,7 @@ function castVote(username, map, target) {
 function clearVote(username, target) {
   if(!isOpen())
     return;
-    
+
   if( username in state['voters']) {
     state['maps'][state['voters'][username]] -= 1;
     delete state['voters'][username];
@@ -39,7 +39,7 @@ function clearVote(username, target) {
   client.say(target, `${username} has not yet cast a vote to clear.`);
 }
 
-module.exports = {
+export {
   castVote,
   clearVote,
 }

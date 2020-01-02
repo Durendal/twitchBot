@@ -1,8 +1,8 @@
-const { logMessage } = require('src/utils').logging;
-const { state } = require('src/config');
-const { getUserName } = require('src/utils').users;
-const { client } = require('src/utils').client;
-const { isAdmin } = require('src/utils').admins;
+import { logMessage } from 'src/utils/logging';
+import { state } from 'src/config';
+import { getUserName } from 'src/utils/users';
+import { client } from 'src/utils/client';
+import { isAdmin } from 'src/utils/admins';
 
 /**
   Write the context of the current user to the bots console.log
@@ -66,7 +66,7 @@ function listMods(target, context) {
   client.say(target, `Mods: ${state['admins'].join(', ')}`);
 }
 
-module.exports = {
+export {
   checkContext,
   checkState,
   addMod,

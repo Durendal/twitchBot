@@ -1,6 +1,6 @@
-const { isAdmin } = require('src/utils/admins');
-const { topMap } = require('src/utils/maps');
-const { state } = require('src/config');
+import { isAdmin } from 'src/utils/admins';
+import { topMap } from 'src/utils/maps';
+import { state } from 'src/config';
 
 /**
   Ends a given tournament round ending map voting
@@ -25,7 +25,7 @@ function isOpen() {
   return true;
 }
 
-module.exports = {
+export {
   newRound,
   isOpen,
 };

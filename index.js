@@ -1,8 +1,8 @@
-require('app-module-path').addPath(__dirname);
-const { client } = require('src/utils').client;
-const { onMessageHandler, onConnectedHandler } = require('src/handlers');
+import "app-module-path/register";
+import { client } from 'src/utils/client';
+import { onMessageHandler, onConnectedHandler } from 'src/handlers';
 
-// Register our event handlers 
+// Register our event handlers
 client.on('message', onMessageHandler);
 client.on('connected', onConnectedHandler);
 
