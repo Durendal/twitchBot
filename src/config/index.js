@@ -1,7 +1,7 @@
-const { client } = require('src/config/client');
-const { state } = require('src/config/state');
+import { client } from 'src/config/client';
+import { state } from 'src/config/state';
 
-module.exports = {
+export {
   client,
   state
 };
