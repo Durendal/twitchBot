@@ -112,21 +112,24 @@ const pollReducer = (state = initialPollState, action) => {
 
     case types.POLL_VOTE_ADD:
       return [
-          ...state,
-          {
-            poll_options: [
-              ...state[action.payload.poll_id].poll_options,
-              {
-                ...state[action.payload.poll_id].poll_options[action.payload.option_id],
-                option_vote_count: state[action.payload.poll_id].poll_options[action.payload.option_id].option_vote_count += 1,
-                option_voters: [
-                  ...state[action.payload.poll_id].poll_options[action.payload.option_id].option_voters,
-                  action.payload.voter_name,
-                ],
-              },
-            ],
-          },
-        ];
+            ...state.slice(0, action.payload.poll_id),
+            {
+              ...state[action.payload.poll_id],
+              poll_options: [
+                ...state[action.payload.poll_id].poll_options.slice(0, action.payload.option_id),
+                {
+                  ...state[action.payload.poll_id].poll_options[action.payload.option_id],
+                  option_vote_count: state[action.payload.poll_id].poll_options[action.payload.option_id].option_vote_count + 1,
+                  option_voters: [
+                    ...state[action.payload.poll_id].poll_options[action.payload.option_id].option_voters.slice(),
+                    action.payload.voter_name,
+                  ],
+                },
+                ...state[action.payload.poll_id].poll_options.slice(action.payload.option_id + 1),
+              ],
+            },
+            ...state.slice(action.payload.poll_id + 1),
+          ];
 
     case types.POLL_VOTE_DEL:
       const index = state
@@ -136,20 +139,23 @@ const pollReducer = (state = initialPollState, action) => {
         .indexOf(action.payload.voter_name);
 
       return [
-          ...state,
-          {
-            poll_options: [
-              ...state[action.payload.poll_id].poll_options,
-              {
-                ...state[action.payload.poll_id].poll_options[action.payload.option_id],
-                option_vote_count: state[action.payload.poll_id].poll_options[action.payload.option_id].option_vote_count -= 1,
+        ...state.slice(0, action.payload.poll_id),
+        {
+          ...state[action.payload.poll_id],
+          poll_options: [
+            ...state[action.payload.poll_id].poll_options.slice(0, action.payload.option_id),
+            {
+              ...state[action.payload.poll_id].poll_options[action.payload.option_id],
+              option_vote_count: state[action.payload.poll_id].poll_options[action.payload.option_id].option_vote_count - 1,
                 option_voters: [
                   ...state[action.payload.poll_id].poll_options[action.payload.option_id].option_voters.slice(0, index),
                   ...state[action.payload.poll_id].poll_options[action.payload.option_id].option_voters.slice(index + 1),
                 ],
               },
+              ...state[action.payload.poll_id].poll_options.slice(action.payload.option_id + 1),
             ],
           },
+          ...state.slice(action.payload.poll_id + 1),
         ];
 
     case types.POLL_ACTIVE_TRUE:

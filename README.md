@@ -13,7 +13,7 @@ Steps:
 * `$ npm install`
 * `$ cp src/config/client.js.example src/config/client.js`
 * Update `src/config/client.js` with your username, oauth token, and channels you wish to join
-* `$ npm run test`
+* `$ npm run start`
 
 
 # Commands
