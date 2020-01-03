@@ -48,7 +48,7 @@ Steps:
 
 * Generic votes not just maps
 * ~~Integration with twitch channel administrators~~
-* ~~Better documentation Kappa~~
+* Better documentation Kappa
 * Multi-channel support
 * eggdrop style random banter and absurdities
 * an easter egg or two.
