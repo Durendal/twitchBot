@@ -1,8 +1,10 @@
 import * as actions from './actions';
 
 const addAdmin = (username) => async (dispatch) => {
+  console.log("Dispatching addAdmin");
   try {
     dispatch(actions.addAdmin({ username }));
+    console.log("Successfully dispatched");
   } catch (error) {
     console.log(error);
   }
@@ -25,8 +27,10 @@ const modAdminLevel = (username, channel, mod_level) => async (dispatch) => {
 };
 
 const addAdminChannel = (username, channel, mod_level) => async (dispatch) => {
+  console.log("Dispatching addAdminChannel");
   try {
     dispatch(actions.addAdminChannel({ username, channel, mod_level }));
+    console.log("Successfully dispatched");
   } catch (error) {
     console.log(error);
   }
@@ -39,3 +43,11 @@ const delAdminChannel = (username, channel) => async (dispatch) => {
     console.log(error);
   }
 }
+
+export {
+  addAdmin,
+  delAdmin,
+  modAdminLevel,
+  addAdminChannel,
+  delAdminChannel,
+};

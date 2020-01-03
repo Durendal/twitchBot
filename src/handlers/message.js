@@ -1,9 +1,13 @@
-const { client, logging } = require('src/utils');
-const { state } = require('src/config');
-const { users, admins, maps, rounds } = require('src/commands');
-const { getUserName } = require('src/utils').users;
-const { isOpen } = require('src/utils').rounds;
-const { mapList } = require('src/utils').maps;
+import { client, logging } from 'src/utils';
+import { state } from 'src/config';
+import { users, admins, maps, rounds } from 'src/commands';
+import { getUserName } from 'src/utils/users';
+import { isOpen } from 'src/utils/rounds';
+import { mapList } from 'src/utils/maps';
+import { adminOperations, adminSelectors } from 'src/state/ducks/admins';
+import { pollOperations, pollSelectors } from 'src/state/ducks/polls';
+import store from 'src/state/store';
+const { getState, dispatch } = store;
 
 /**
   Execute every time a message comes in
@@ -12,7 +16,7 @@ const { mapList } = require('src/utils').maps;
   @param {String} msg - The message sent by the user
   @param {Object} self - Our bot
  */
-function onMessageHandler (target, context, msg, self) {
+const onMessageHandler = async (target, context, msg, self) => {
 
   // Ignore if message is a command or sent from our bot
   if (self || !(msg.startsWith('!'))) { return; } // Ignore messages from the bot
@@ -21,12 +25,14 @@ function onMessageHandler (target, context, msg, self) {
   const username = getUserName(context);
   var usern = '';
   var map = '';
+  var poll_id = '';
 
   // Parse command out of message
   const commandName = msg.trim().split(" ")[0];
   switch(commandName) {
     case "!vote":
-      if(!isOpen()) {
+      poll_id = msg.trim().split(" ")[1];
+      if(!isOpen(poll_id)) {
         logging.addLog(`${username} attempted to vote while voting was closed`, 'error');
         client.client.say(target, `Sorry ${username} Voting is currently closed.`);
         return;
@@ -38,7 +44,9 @@ function onMessageHandler (target, context, msg, self) {
       break;
     case "!maps":
       const list = mapList().join(', ');
+      const map_list = pollSelectors.getOptionNames(getState(), 0);
       client.client.say(target, `Map list: ${list}`);
+      client.client.say(target, `Map list: ${map_list}`);
       break;
     case "!clear":
       users.clearVote(username, target);
@@ -56,12 +64,12 @@ function onMessageHandler (target, context, msg, self) {
       admins.checkState(target, context);
       break;
     case "!addmod":
-      usern = msg.trim().split(" ").slice(1).join(" ");
-      admins.addMod(usern, target, context);
+      const mod_to_add = msg.trim().split(" ").slice(1).join(" ");
+      admins.addMod(mod_to_add, target, context);
       break;
     case "!delmod":
-      usern = msg.trim().split(" ").slice(1).join(" ");
-      admins.delMod(usern, target, context);
+      const mod_to_del = msg.trim().split(" ").slice(1).join(" ");
+      admins.delMod(mod_to_del, target, context);
       break;
     case "!listmods":
       admins.listMods(target, context);
@@ -73,6 +81,17 @@ function onMessageHandler (target, context, msg, self) {
     case "!delmap":
       map = msg.trim().split(" ").slice(1).join(" ");
       maps.delMap(map, target, context);
+      break;
+    case "!test":
+      try {
+        dispatch(adminOperations.addAdminChannel('durendalz', 'nathanfreeze', 5));
+        dispatch(pollOperations.addPollOption(0, 'Angoville'));
+      } catch (error) {
+        console.log(error);
+      }
+      break;
+    case "!print":
+      client.client.say(target, JSON.stringify(getState()));
       break;
     default:
       logging.logMessage(target, `* Unknown command ${commandName}`);
