@@ -18,17 +18,17 @@ Steps:
 
 # Commands
 
-## Users
-### !vote \<map name\>
-    Allows a user to submit a vote for <map name> as long as it is a valid map listed in `!maps` and the user has no previously recorded vote.
-### !maps
-    Prints a list of all maps available to vote for to the chat
-### !clear
-    If a user has a previously recorded vote it will be cleared.
-### !results
-    Prints out a list of each elligible map and its current number of votes.
-### !top
-    Prints out the current highest voted map.
+## Polls
+### !vote \<poll id\> \<poll option\>
+    Allows a user to submit a vote for <poll option> on <poll id> as long as it is a valid option listed in `!options <poll id>` and the user has no previously recorded vote.
+### !options \<poll id\>
+    Prints a list of all options available to vote for on <poll id> to the chat
+### !clear \<poll id\>
+    If a user has a previously recorded vote on <poll id> it will be cleared.
+### !results \<poll id\>
+    Prints out a list of each elligible option on <poll id> and its current number of votes.
+### !top \<poll id\>
+    Prints out the current highest voted option for <poll id>.
 
 ## Admins
 ### !context
