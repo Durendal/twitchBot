@@ -1,30 +1,34 @@
 import { logMessage } from 'src/utils/logging';
-import { state } from 'src/config';
-import { getUserName } from 'src/utils/users';
 import { client } from 'src/utils/client';
-import { isAdmin } from 'src/utils/admins';
+import { adminOperations, adminSelectors } from 'src/state/ducks/admins';
+import { parseMessage } from 'src/utils/messages';
+import { dispatch, getState } from 'src/state/store';
 
 /**
   Write the context of the current user to the bots console.log
   @param {String} target - The channel the user wrote the command in
   @param {Object} context - The context of the user who wrote the command
  */
-function checkContext(target, context) {
-  if(!isAdmin(target, context))
+function checkContext(msg, context, target) {
+  const { username, arguments } = parseMessage(msg, context);
+  if(!adminSelectors.isAdmin(getState(), username, target))
     return;
   logMessage(target, `Context: ${JSON.stringify(context)}`);
-}
+};
 
 /**
   Write the state of the bot to the bots console.log
   @param {String} target - The channel the user wrote the command in
   @param {Object} context - The context of the user who wrote the command
  */
-function checkState(target, context) {
-  if(!isAdmin(target, context))
+function checkState(msg, context, target) {
+  const { username } = parseMessage(msg, context);
+
+  if(!adminSelectors.isAdmin(getState(), username, target))
     return;
-  logMessage(target, `State: ${JSON.stringify(state)}`);
-}
+
+  logMessage(target, `State: ${JSON.stringify(getState())}`);
+};
 
 /**
   Add a user to the list of administrators
@@ -32,11 +36,15 @@ function checkState(target, context) {
   @param {String} target - The twitch channel to add the mod to
   @param {Object} context - The context of the user adding the mod
  */
-function addMod(user, target, context) {
-  if(!isAdmin(target, context))
+function addMod(msg, context, target) {
+  const { username, arguments } = parseMessage(msg, context);
+  const user_to_mod = arguments[0];
+
+  if(!adminSelectors.isAdmin(getState(), username, target))
     return;
-  state['admins'].push(user)
-}
+
+  adminOperations.addAdmin(user_to_mod);
+};
 
 /**
   Add a user to the list of administrators
@@ -44,27 +52,31 @@ function addMod(user, target, context) {
   @param {String} target - The twitch channel to delete the mod from
   @param {Object} context - The context of the user removing the mod
  */
-function delMod(user, target, context) {
-  if(!isAdmin(target, context))
+function delMod(msg, context, target) {
+  const { username, arguments } = parseMessage(msg, context);
+  const user_to_unmod = arguments[0];
+
+  if(!adminSelectors.isAdmin(getState(), username, target))
     return;
 
-  const index = state['admins'].indexOf(user);
+  const index = getState()[user_to_unmod].indexOf(target);
 
   if (index > -1)
-    state['admins'].splice(index, 1);
-}
+    adminOperations.delAdmin(user_to_unmod);
+};
 
 /**
   List all currently set moderators (doesn't account for twitch mods)
   @param {String} target - The twitch channel to check for moderators
   @param {Object} context - The context of the user sending the command
  */
-function listMods(target, context) {
-  if(!isAdmin(target, context))
+function listMods(msg, context, target) {
+  if(!adminSelectors.isAdmin(getState(), username, target))
     return;
 
-  client.say(target, `Mods: ${state['admins'].join(', ')}`);
-}
+  const admins = adminSelectors.channelMods(getState(), target);
+  client.say(target, `Mods: ${admins.join(', ')}`);
+};
 
 export {
   checkContext,
