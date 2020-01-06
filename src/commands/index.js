@@ -24,7 +24,7 @@ const listCommands = (target) => {
   const command_list = Object.keys(commands)
     .map(command => `!${command.toLowerCase()}`)
     .join(", ");
-  //client.say(target, `Available commands: ${command_list}`);
+  client.say(target, `Available commands: ${command_list}`);
   return command_list;
 };
 

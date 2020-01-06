@@ -26,7 +26,7 @@ const vote = (msg, context, target) => {
 
   if(pollSelectors.pollExists(getState(), poll_id)) {
     const option_name = args.slice(1).join(" ");
-    const option_id = pollSelectors.getOptionIdByName(getState(), poll_id, map_name);
+    const option_id = pollSelectors.getOptionIdByName(getState(), poll_id, option_name);
 
     logging.addLog(`${username} attempting to vote for ${option_name}`);
 

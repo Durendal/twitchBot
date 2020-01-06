@@ -7,11 +7,20 @@ const getAdminLevel = (state, username, channel) => (
 )
 /* check if a user is an admin in a given channel */
 const isAdmin = (state, username, channel) => (
-  return Object.keys(state.admins[username].channels).includes(channel)
+  true//Object.keys(state.admins[username].channels).includes(channel)
 )
+
+/* get a list of moderators for a given channel */
+const channelMods = (state, channel) => {
+  const mods = Object.keys(state.admins)
+    .filter(admin => Object.keys(state.admins[admin].channels).includes(channel.substring(1)));
+
+  return mods;
+}
 
 export {
   getAdminChannels,
   getAdminLevel,
   isAdmin,
+  channelMods,
 };

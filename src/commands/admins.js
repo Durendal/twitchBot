@@ -11,7 +11,7 @@ const { dispatch, getState } = store;
   @param {String} target - The channel the user wrote the command in
   @param {Object} context - The context of the user who wrote the command
  */
-function checkContext(msg, context, target) {
+const checkContext = (msg, context, target) => {
   const { username, args, isAdmin } = parseMessage(msg, context, target);
   if(!isAdmin)
     return;
@@ -23,7 +23,7 @@ function checkContext(msg, context, target) {
   @param {String} target - The channel the user wrote the command in
   @param {Object} context - The context of the user who wrote the command
  */
-function checkState(msg, context, target) {
+const checkState = (msg, context, target) => {
   const { username, isAdmin } = parseMessage(msg, context, target);
 
   if(!isAdmin)
@@ -38,14 +38,29 @@ function checkState(msg, context, target) {
   @param {String} target - The twitch channel to add the mod to
   @param {Object} context - The context of the user adding the mod
  */
-function addMod(msg, context, target) {
+const addMod = (msg, context, target) => {
   const { username, args, isAdmin } = parseMessage(msg, context, target);
+  console.log(args);
   const user_to_mod = args[0];
+  const mod_level = args[1];
 
   if(!isAdmin)
     return;
 
-  adminOperations.addAdmin(user_to_mod);
+  console.log(isAdmin);
+  console.log(`${username} attempting to mod ${user_to_mod} with level ${mod_level} in ${target}`);
+  try {
+    dispatch(adminOperations.addAdmin(user_to_mod));
+    dispatch(
+      adminOperations.addAdminChannel(
+        user_to_mod,
+        target.substring(1),
+        mod_level
+      )
+    );
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 /**
@@ -54,17 +69,14 @@ function addMod(msg, context, target) {
   @param {String} target - The twitch channel to delete the mod from
   @param {Object} context - The context of the user removing the mod
  */
-function delMod(msg, context, target) {
+const delMod = (msg, context, target) => {
   const { username, args, isAdmin } = parseMessage(msg, context, target);
   const user_to_unmod = args[0];
-
+  console.log(`Unmodding: ${user_to_unmod}`);
   if(!isAdmin)
     return;
-
-  const index = getState()[user_to_unmod].indexOf(target);
-
-  if (index > -1)
-    adminOperations.delAdmin(user_to_unmod);
+  if(Object.keys(getState()['admins'][user_to_unmod].channels).includes(target.substring(1)))
+    dispatch(adminOperations.delAdminChannel(user_to_unmod, target));
 };
 
 /**
@@ -72,7 +84,7 @@ function delMod(msg, context, target) {
   @param {String} target - The twitch channel to check for moderators
   @param {Object} context - The context of the user sending the command
  */
-function listMods(msg, context, target) {
+const listMods = (msg, context, target) => {
   const { isAdmin } = parseMessage(msg, context, target);
 
   if(!isAdmin)

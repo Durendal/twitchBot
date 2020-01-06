@@ -27,6 +27,9 @@ const initialAdminState = {
     channels: {
       chihuahua_charity: {
         admin_level: 5
+      },
+      durendalz: {
+        admin_level: 3
       }
     },
   }
@@ -71,7 +74,7 @@ const adminReducer = (state = initialAdminState, action) => {
           }
         }
       };
-      
+
     case types.ADMIN_ADD_CHANNEL:
       return {
         ...state,
@@ -87,8 +90,8 @@ const adminReducer = (state = initialAdminState, action) => {
       };
 
     case types.ADMIN_DEL_CHANNEL:
-      const channels = Object.keys(state.admins[action.payload.username].channels)
-        .filter(chan_name => chan_name !== action.payload.channel)
+      const channels = Object.keys(state[action.payload.username].channels)
+        .filter(chan_name => chan_name === action.payload.channel)
         .reduce((chan, key) => {
             return {
               ...chan,
@@ -97,6 +100,7 @@ const adminReducer = (state = initialAdminState, action) => {
           },
           {}
         );
+        
       return {
         ...state,
         [action.payload.username]: {
