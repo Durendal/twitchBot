@@ -2,7 +2,9 @@ import { logMessage } from 'src/utils/logging';
 import { client } from 'src/utils/client';
 import { adminOperations, adminSelectors } from 'src/state/ducks/admins';
 import { parseMessage } from 'src/utils/messages';
-import { dispatch, getState } from 'src/state/store';
+import store from 'src/state/store';
+
+const { dispatch, getState } = store;
 
 /**
   Write the context of the current user to the bots console.log
@@ -10,7 +12,7 @@ import { dispatch, getState } from 'src/state/store';
   @param {Object} context - The context of the user who wrote the command
  */
 function checkContext(msg, context, target) {
-  const { username, arguments, isAdmin } = parseMessage(msg, context, target);
+  const { username, args, isAdmin } = parseMessage(msg, context, target);
   if(!isAdmin)
     return;
   logMessage(target, `Context: ${JSON.stringify(context)}`);
@@ -37,8 +39,8 @@ function checkState(msg, context, target) {
   @param {Object} context - The context of the user adding the mod
  */
 function addMod(msg, context, target) {
-  const { username, arguments, isAdmin } = parseMessage(msg, context, target);
-  const user_to_mod = arguments[0];
+  const { username, args, isAdmin } = parseMessage(msg, context, target);
+  const user_to_mod = args[0];
 
   if(!isAdmin)
     return;
@@ -53,8 +55,8 @@ function addMod(msg, context, target) {
   @param {Object} context - The context of the user removing the mod
  */
 function delMod(msg, context, target) {
-  const { username, arguments, isAdmin } = parseMessage(msg, context, target);
-  const user_to_unmod = arguments[0];
+  const { username, args, isAdmin } = parseMessage(msg, context, target);
+  const user_to_unmod = args[0];
 
   if(!isAdmin)
     return;
