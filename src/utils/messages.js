@@ -1,6 +1,8 @@
 import { getUserName } from 'src/utils/users';
 import { adminSelectors } from 'src/state/ducks/admins';
-import { getState } from 'src/state/store';
+import store from 'src/state/store';
+
+const { getState } = store;
 
 /**
   parse a message returning data about it
@@ -8,17 +10,22 @@ import { getState } from 'src/state/store';
   @param {Object} context - The context of the message being sent
  */
 const parseMessage = (msg, context, target) => {
-  const username = getUserName(context);
-  const isAdmin = adminSelectors.isAdmin(getState(), username, target);
-  const commandName = msg.trim().split(" ")[0];
-  const arguments = msg.trim().split().slice(1);
 
-  return {
-    username,
-    commandName,
-    arguments,
-    isAdmin,
-  };
+  try {
+    const username = getUserName(context);
+    const commandName = msg.trim().split(" ")[0];
+    const args = msg.trim().split(" ").slice(1);
+    const isAdmin = adminSelectors.isAdmin(getState(), username, target);
+
+    return {
+      username,
+      commandName,
+      args,
+      isAdmin,
+    };
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export {
