@@ -2,9 +2,11 @@ import { logging } from 'src/utils';
 import { client } from 'src/utils/client';
 import { adminOperations, adminSelectors } from 'src/state/ducks/admins';
 import { pollOperations, pollSelectors } from 'src/state/ducks/polls';
-import { getState, dispatch } from 'src/state/store';
-import { parseMessage } from 'src/utils/message';
+import store from 'src/state/store';
+import { parseMessage } from 'src/utils/messages';
 import { commandSwitch } from 'src/commands';
+
+const { getState, dispatch } = store;
 
 /**
   Execute every time a message comes in
@@ -16,124 +18,18 @@ import { commandSwitch } from 'src/commands';
 const onMessageHandler = async (target, context, msg, self) => {
 
   // Ignore if message is not a command or is sent from our bot
-  if (self || !(msg.startsWith('!'))) { return; } // Ignore messages from the bot
+  if (self || !(msg.startsWith('!'))) { return; }
+  try {
+    // Extract command
+    const { commandName } = parseMessage(msg, context, target);
 
-  // Extract username from context
-  const { commandName, username, arguments } = parseMessage(msg, context, target);
-
-  commandSwitch(commandName, arguments);
-
-  switch(commandName) {
-    case "!vote":
-      poll_id = msg.trim().split(" ")[1];
-      if(!pollSelectors.pollIsOpen(getState(), poll_id)) {
-        logging.addLog(`${username} attempted to vote while voting was closed`, 'error');
-        client.say(target, `Sorry ${username} Voting is currently closed.`);
-        return;
-      }
-
-      const map_name = msg.trim().split(" ").slice(2).join(" ");
-      const option_id = pollSelectors.getOptionIdByName(getState(), poll_id, map_name);
-
-      logging.addLog(`${username} attempting to vote for ${map_name}`);
-      users.castVote(username, map_name, target);
-
-      try{
-        dispatch(
-          pollOperations.addPollVote(
-            poll_id,
-            pollSelectors.getOptionIdByName(getState(),poll_id, map_name),
-            username,
-          )
-        );
-      } catch (error) {
-        console.log(error);
-      }
-
-      logging.logMessage(target, `Votes: ${JSON.stringify(state["voters"])}`);
-      break;
-
-    case "!listpolls":
-      pollSelectors.listPolls(getState())
-        .forEach(poll =>
-          client.say(target, `Pole #${poll.poll_id}: ${poll.poll_name}`)
-        );
-      break;
-
-    case "!maps":
-      const list = mapList().join(', ');
-      try {
-        const map_list = pollSelectors.getOptionNames(getState(), 0);
-        client.say(target, `Map list: ${list}`);
-        client.say(target, `Map list: ${map_list}`);
-      } catch (error) {
-        console.log(error);
-      }
-      break;
-
-    case "!clear":
-      poll_id = msg.trim().split(" ")[1];
-      users.clearVote(username, target);
-      break;
-
-    case "!results":
-      rounds.viewResults(target);
-      break;
-
-    case "!top":
-      client.say(target, `Top Map: ${maps.topMap()}`);
-      client.say(target, `Top Map: ${pollSelectors.getTopOption(getState(), 0)}`)
-      break;
-
-    case "!context":
-      admins.checkContext(target, context);
-      break;
-
-    case "!state":
-      admins.checkState(target, context);
-      break;
-
-    case "!addmod":
-      const mod_to_add = msg.trim().split(" ").slice(1).join(" ");
-      admins.addMod(mod_to_add, target, context);
-      break;
-
-    case "!delmod":
-      const mod_to_del = msg.trim().split(" ").slice(1).join(" ");
-      admins.delMod(mod_to_del, target, context);
-      break;
-
-    case "!listmods":
-      admins.listMods(target, context);
-      break;
-
-    case "!addmap":
-      const map_to_add = msg.trim().split(" ").slice(1).join(" ");
-      maps.addMap(map_to_add, target, context);
-      break;
-
-    case "!delmap":
-      const map_to_del = msg.trim().split(" ").slice(1).join(" ");
-      maps.delMap(map_to_del, target, context);
-      break;
-
-    case "!test":
-      try {
-        dispatch(adminOperations.addAdminChannel('durendalz', 'nathanfreeze', 5));
-        dispatch(pollOperations.addPollOption(0, 'Angoville'));
-        dispatch(pollOperations.addPollVote(0, 0, 'durendalz'));
-      } catch (error) {
-        console.log(error);
-      }
-      break;
-
-    case "!print":
-      client.say(target, JSON.stringify(getState()));
-      break;
-
-    default:
-      logging.logMessage(target, `* Unknown command ${commandName}`);
+    // Execute command
+    commandSwitch(commandName, msg, context, target);
+  } catch (error) {
+    console.log(error);
   }
 }
 
-module.exports = { onMessageHandler };
+export {
+  onMessageHandler,
+};
