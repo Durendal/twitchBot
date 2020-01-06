@@ -72,7 +72,7 @@ function delMod(msg, context, target) {
  */
 function listMods(msg, context, target) {
   const { isAdmin } = parseMessage(msg, context, target);
-  
+
   if(!isAdmin)
     return;
 
