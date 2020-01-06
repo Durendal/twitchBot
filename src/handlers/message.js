@@ -19,7 +19,7 @@ const onMessageHandler = async (target, context, msg, self) => {
   if (self || !(msg.startsWith('!'))) { return; } // Ignore messages from the bot
 
   // Extract username from context
-  const { commandName, username, arguments } = parseMessage(msg, context);
+  const { commandName, username, arguments } = parseMessage(msg, context, target);
 
   commandSwitch(commandName, arguments);
 

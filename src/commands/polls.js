@@ -12,7 +12,7 @@ import { dispatch, getState } from 'src/state/store';
   @param {String} target - The target source/destination of msg
  */
 const vote = (msg, context, target) => {
-  const { username, arguments } = parseMessage(msg, context);
+  const { username, arguments } = parseMessage(msg, context, target);
 
   const poll_id = arguments[0];
 
@@ -77,7 +77,7 @@ const listPolls = (msg, context, target) => {
   @param {String} target - The target source/destination of msg
  */
 const listOptions = (msg, context, target) => {
-  const { arguments } = parseMessage(msg, context);
+  const { arguments } = parseMessage(msg, context, target);
   const poll_id = arguments[0];
   try {
     const option_list = pollSelectors.getOptionNames(getState(), poll_id);
@@ -94,7 +94,7 @@ const listOptions = (msg, context, target) => {
   @param {String} target - The target source/destination of msg
  */
 const listResults = (msg, context, target) => {
-  const { username, arguments } = parseMessage(msg, context);
+  const { username, arguments } = parseMessage(msg, context, target);
   const poll_id = arguments[0];
   try {
     const results = pollSelectors.getResults(getState(), target, poll_id);
@@ -111,7 +111,7 @@ const listResults = (msg, context, target) => {
   @param {String} target - The target source/destination of msg
  */
 const clearVote = (msg, context, target) => {
-  const { arguments, username } = parseMessage(msg, context);
+  const { arguments, username } = parseMessage(msg, context, target);
   const poll_id = arguments[0];
   const option_id = pollSelectors.getUserVoteID(state, poll_id, username);
   pollOperations.delPollVote(poll_id, option_id, username);
@@ -124,7 +124,7 @@ const clearVote = (msg, context, target) => {
   @param {String} target - The target source/destination of msg
  */
 const topOption = (msg, context, target) => {
-  const { arguments } = parseMessage(msg, context);
+  const { arguments } = parseMessage(msg, context, target);
   const poll_id = arguments[0];
   try {
     const top_option = pollSelectors.getTopOption(getState(), poll_id);

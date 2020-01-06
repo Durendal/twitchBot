@@ -10,8 +10,8 @@ import { dispatch, getState } from 'src/state/store';
   @param {Object} context - The context of the user who wrote the command
  */
 function checkContext(msg, context, target) {
-  const { username, arguments } = parseMessage(msg, context);
-  if(!adminSelectors.isAdmin(getState(), username, target))
+  const { username, arguments, isAdmin } = parseMessage(msg, context, target);
+  if(!isAdmin)
     return;
   logMessage(target, `Context: ${JSON.stringify(context)}`);
 };
@@ -22,9 +22,9 @@ function checkContext(msg, context, target) {
   @param {Object} context - The context of the user who wrote the command
  */
 function checkState(msg, context, target) {
-  const { username } = parseMessage(msg, context);
+  const { username, isAdmin } = parseMessage(msg, context, target);
 
-  if(!adminSelectors.isAdmin(getState(), username, target))
+  if(!isAdmin)
     return;
 
   logMessage(target, `State: ${JSON.stringify(getState())}`);
@@ -37,10 +37,10 @@ function checkState(msg, context, target) {
   @param {Object} context - The context of the user adding the mod
  */
 function addMod(msg, context, target) {
-  const { username, arguments } = parseMessage(msg, context);
+  const { username, arguments, isAdmin } = parseMessage(msg, context, target);
   const user_to_mod = arguments[0];
 
-  if(!adminSelectors.isAdmin(getState(), username, target))
+  if(!isAdmin)
     return;
 
   adminOperations.addAdmin(user_to_mod);
@@ -53,10 +53,10 @@ function addMod(msg, context, target) {
   @param {Object} context - The context of the user removing the mod
  */
 function delMod(msg, context, target) {
-  const { username, arguments } = parseMessage(msg, context);
+  const { username, arguments, isAdmin } = parseMessage(msg, context, target);
   const user_to_unmod = arguments[0];
 
-  if(!adminSelectors.isAdmin(getState(), username, target))
+  if(!isAdmin)
     return;
 
   const index = getState()[user_to_unmod].indexOf(target);
@@ -71,7 +71,9 @@ function delMod(msg, context, target) {
   @param {Object} context - The context of the user sending the command
  */
 function listMods(msg, context, target) {
-  if(!adminSelectors.isAdmin(getState(), username, target))
+  const { isAdmin } = parseMessage(msg, context, target);
+  
+  if(!isAdmin)
     return;
 
   const admins = adminSelectors.channelMods(getState(), target);
