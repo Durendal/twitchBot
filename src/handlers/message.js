@@ -1,13 +1,10 @@
-import { client, logging } from 'src/utils';
-import { state } from 'src/config';
-import { users, admins, maps, rounds } from 'src/commands';
-import { getUserName } from 'src/utils/users';
-import { isOpen } from 'src/utils/rounds';
-import { mapList } from 'src/utils/maps';
+import { logging } from 'src/utils';
+import { client } from 'src/utils/client';
 import { adminOperations, adminSelectors } from 'src/state/ducks/admins';
 import { pollOperations, pollSelectors } from 'src/state/ducks/polls';
-import store from 'src/state/store';
-const { getState, dispatch } = store;
+import { getState, dispatch } from 'src/state/store';
+import { parseMessage } from 'src/utils/message';
+import { commandSwitch } from 'src/commands';
 
 /**
   Execute every time a message comes in
@@ -22,26 +19,25 @@ const onMessageHandler = async (target, context, msg, self) => {
   if (self || !(msg.startsWith('!'))) { return; } // Ignore messages from the bot
 
   // Extract username from context
-  const username = getUserName(context);
+  const { commandName, username, arguments } = parseMessage(msg, context);
 
-  var poll_id = '';
-
-  // Parse command out of message
-  const commandName = msg.trim().split(" ")[0];
+  commandSwitch(commandName, arguments);
 
   switch(commandName) {
     case "!vote":
       poll_id = msg.trim().split(" ")[1];
       if(!pollSelectors.pollIsOpen(getState(), poll_id)) {
         logging.addLog(`${username} attempted to vote while voting was closed`, 'error');
-        client.client.say(target, `Sorry ${username} Voting is currently closed.`);
+        client.say(target, `Sorry ${username} Voting is currently closed.`);
         return;
       }
-      const map_name = msg.trim().split(" ").slice(2).join(" ");
 
+      const map_name = msg.trim().split(" ").slice(2).join(" ");
       const option_id = pollSelectors.getOptionIdByName(getState(), poll_id, map_name);
+
       logging.addLog(`${username} attempting to vote for ${map_name}`);
       users.castVote(username, map_name, target);
+
       try{
         dispatch(
           pollOperations.addPollVote(
@@ -60,7 +56,7 @@ const onMessageHandler = async (target, context, msg, self) => {
     case "!listpolls":
       pollSelectors.listPolls(getState())
         .forEach(poll =>
-          client.client.say(target, `Pole #${poll.poll_id}: ${poll.poll_name}`)
+          client.say(target, `Pole #${poll.poll_id}: ${poll.poll_name}`)
         );
       break;
 
@@ -68,8 +64,8 @@ const onMessageHandler = async (target, context, msg, self) => {
       const list = mapList().join(', ');
       try {
         const map_list = pollSelectors.getOptionNames(getState(), 0);
-        client.client.say(target, `Map list: ${list}`);
-        client.client.say(target, `Map list: ${map_list}`);
+        client.say(target, `Map list: ${list}`);
+        client.say(target, `Map list: ${map_list}`);
       } catch (error) {
         console.log(error);
       }
@@ -85,8 +81,8 @@ const onMessageHandler = async (target, context, msg, self) => {
       break;
 
     case "!top":
-      client.client.say(target, `Top Map: ${maps.topMap()}`);
-      client.client.say(target, `Top Map: ${pollSelectors.getTopOption(getState(), 0)}`)
+      client.say(target, `Top Map: ${maps.topMap()}`);
+      client.say(target, `Top Map: ${pollSelectors.getTopOption(getState(), 0)}`)
       break;
 
     case "!context":
@@ -132,9 +128,9 @@ const onMessageHandler = async (target, context, msg, self) => {
       break;
 
     case "!print":
-      client.client.say(target, JSON.stringify(getState()));
+      client.say(target, JSON.stringify(getState()));
       break;
-      
+
     default:
       logging.logMessage(target, `* Unknown command ${commandName}`);
   }
