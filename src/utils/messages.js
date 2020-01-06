@@ -1,4 +1,3 @@
-import { getUserName } from 'src/utils/users';
 import { adminSelectors } from 'src/state/ducks/admins';
 import store from 'src/state/store';
 
@@ -28,6 +27,15 @@ const parseMessage = (msg, context, target) => {
   }
 };
 
+/**
+  Return the username from a given user context
+  @param {Object} context - The user context to extract a username from
+ */
+function getUserName(context) {
+  return context['username'] || context['display-name'];
+}
+
 export {
   parseMessage,
+  getUserName,
 };

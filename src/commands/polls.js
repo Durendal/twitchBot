@@ -1,8 +1,7 @@
 import { pollSelectors, pollOperations } from 'src/state/ducks/polls';
 import { client } from 'src/utils/client';
 import { logging } from 'src/utils';
-import { getUserName } from 'src/utils/users';
-import { parseMessage } from 'src/utils/messages';
+import { parseMessage, getUserName } from 'src/utils/messages';
 import store from 'src/state/store';
 
 const { dispatch, getState } = store;
