@@ -7,8 +7,8 @@ import { writeFileSync } from 'fs';
 
 // Subscribe to redux store
 subscribe(() => {
-  console.log('Store changed', JSON.stringify(getState()));
-  writeFileSync('src/state/state.json', JSON.stringify(getState()));
+  console.log('Store changed', JSON.stringify(getState(), null, 2));
+  writeFileSync('src/state/state.json', JSON.stringify(getState(), null, 2));
 });
 
 // Register our event handlers
