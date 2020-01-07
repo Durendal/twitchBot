@@ -13,10 +13,9 @@ const commands = {};
 const loadCommands = async() => {
   if(!Object.keys(commands).length) {
     try {
-      console.log(__dirname);
       const base_dir = __dirname.split('/').slice(0, -1).join('/');
       const dirs = readdirSync(`${base_dir}/state/ducks/`).filter(f => statSync(join(`${base_dir}/state/ducks/`, f)).isDirectory());
-      console.log(dirs);
+
       dirs.forEach(async dir => {
         commands[dir] = await import(`${base_dir}/state/ducks/${dir}/commands`);
         Object.keys(commands[dir])
@@ -30,8 +29,7 @@ const loadCommands = async() => {
 }
 
 try {
-  console.log("Pre-load:", JSON.stringify(commands));
-  loadCommands().then(res => console.log("Post-load:", JSON.stringify(commands)));
+  loadCommands();
 } catch (error) {
   console.log(error);
 }
