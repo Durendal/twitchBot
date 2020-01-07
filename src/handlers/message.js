@@ -16,15 +16,16 @@ const { getState, dispatch } = store;
   @param {Object} self - Our bot
  */
 const onMessageHandler = async (target, context, msg, self) => {
+  const channel = target.substring(1);
 
   // Ignore if message is not a command or is sent from our bot
   if (self || !(msg.startsWith('!'))) { return; }
   try {
     // Extract command
-    const { commandName } = parseMessage(msg, context, target);
+    const { commandName } = parseMessage(msg, context, channel);
 
     // Execute command
-    commandSwitch(commandName, msg, context, target);
+    commandSwitch(commandName, msg, context, channel);
   } catch (error) {
     console.log(error);
   }
