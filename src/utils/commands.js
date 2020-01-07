@@ -7,6 +7,7 @@ import "regenerator-runtime/runtime";
   Object containing all commands for the bot.
  */
 const commands = {};
+const mod = {};
 
 const loadCommands = async() => {
   try {
@@ -14,9 +15,11 @@ const loadCommands = async() => {
     const dirs = readdirSync(`${base_dir}/state/ducks/`).filter(f => statSync(join(`${base_dir}/state/ducks/`, f)).isDirectory());
 
     dirs.forEach(async dir => {
-      commands[dir] = await import(`${base_dir}/state/ducks/${dir}/commands`);
-      Object.keys(commands[dir])
-        .forEach(command => add(command, commands[dir][command]));
+      mod[dir] = await import(`${base_dir}/state/ducks/${dir}/commands`);
+      Object.keys(mod[dir])
+        .forEach(m => {
+          if(m !== dir) add(m, mod[dir][m])
+        });
     });
   } catch (error) {
     console.log(error);
@@ -53,7 +56,7 @@ const getCommands = (target) => {
 /**
   List all available commands
  */
-const listCommands = (target) => {
+const listCommands = (msg, context, target) => {
   client.say(target, `Available commands: ${getCommands(target)}`);
 };
 
@@ -66,6 +69,7 @@ add('list', listCommands);
   @param {Array} args - Any arguments that need to be passed to the command
  */
 const commandSwitch = (name, msg, context, target) => {
+
   if (getCommands(target).includes(name)){
     // Trim ! from command
     const short_name = name.substring(1);

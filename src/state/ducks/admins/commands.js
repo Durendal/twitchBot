@@ -15,7 +15,8 @@ const checkContext = (msg, context, target) => {
   const { username, args, isAdmin } = parseMessage(msg, context, target);
   if(!isAdmin)
     return;
-  logMessage(target, `Context: ${JSON.stringify(context)}`);
+
+  logMessage(target, `Context: ${JSON.stringify(context, null, 2)}`);
 };
 
 /**
@@ -29,7 +30,7 @@ const checkState = (msg, context, target) => {
   if(!isAdmin)
     return;
 
-  logMessage(target, `State: ${JSON.stringify(getState())}`);
+  logMessage(target, `State: ${JSON.stringify(getState(), null, 2)}`);
 };
 
 /**
@@ -39,25 +40,18 @@ const checkState = (msg, context, target) => {
   @param {Object} context - The context of the user adding the mod
  */
 const addMod = (msg, context, target) => {
+
   const { username, args, isAdmin } = parseMessage(msg, context, target);
-  console.log(args);
+
   const user_to_mod = args[0];
   const mod_level = args[1];
 
   if(!isAdmin)
     return;
 
-  console.log(isAdmin);
   console.log(`${username} attempting to mod ${user_to_mod} with level ${mod_level} in ${target}`);
   try {
-    dispatch(adminOperations.addAdmin(user_to_mod));
-    dispatch(
-      adminOperations.addAdminChannel(
-        user_to_mod,
-        target.substring(1),
-        mod_level
-      )
-    );
+    dispatch(adminOperations.addAdmin(user_to_mod, target, mod_level));
   } catch (error) {
     console.log(error);
   }
@@ -72,11 +66,11 @@ const addMod = (msg, context, target) => {
 const delMod = (msg, context, target) => {
   const { username, args, isAdmin } = parseMessage(msg, context, target);
   const user_to_unmod = args[0];
-  console.log(`Unmodding: ${user_to_unmod}`);
+
   if(!isAdmin)
     return;
-  if(Object.keys(getState()['admins'][user_to_unmod].channels).includes(target.substring(1)))
-    dispatch(adminOperations.delAdminChannel(user_to_unmod, target));
+  if(Object.keys(getState()['admins'][target]).includes(user_to_unmod))
+    dispatch(adminOperations.delAdmin(user_to_unmod, target));
 };
 
 /**

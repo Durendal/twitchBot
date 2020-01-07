@@ -99,7 +99,7 @@ const listResults = (msg, context, target) => {
   const poll_id = args[0];
   try {
     const results = pollSelectors.getResults(getState(), target, poll_id);
-    client.say(target, `Poll Results: ${JSON.stringify(results)}`);
+    client.say(target, `Poll Results: ${JSON.stringify(results, null, 2)}`);
   } catch (error) {
     console.log(error);
   }
