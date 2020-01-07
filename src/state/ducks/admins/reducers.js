@@ -42,7 +42,9 @@ const adminReducer = (state = initialAdminState, action) => {
       return {
         ...state,
         [action.payload.username]: {
-          channels: {},
+          channels: {
+            ...state[action.payload.username].channels,
+          },
         }
       };
 
@@ -100,7 +102,7 @@ const adminReducer = (state = initialAdminState, action) => {
           },
           {}
         );
-        
+
       return {
         ...state,
         [action.payload.username]: {
