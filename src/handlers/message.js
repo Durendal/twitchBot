@@ -4,7 +4,7 @@ import { adminOperations, adminSelectors } from 'src/state/ducks/admins';
 import { pollOperations, pollSelectors } from 'src/state/ducks/polls';
 import store from 'src/state/store';
 import { parseMessage } from 'src/utils/messages';
-import { commandSwitch } from 'src/commands';
+import { commandSwitch } from 'src/utils/commands';
 
 const { getState, dispatch } = store;
 
