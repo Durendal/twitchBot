@@ -44,15 +44,17 @@ const add = (name, fn) => {
   commands[name.toLowerCase()] = fn;
 };
 
+const getCommands = (target) => {
+  return Object.keys(commands)
+    .map(command => `!${command.toLowerCase()}`)
+    .join(", ");
+};
+
 /**
   List all available commands
  */
 const listCommands = (target) => {
-  const command_list = Object.keys(commands)
-    .map(command => `!${command.toLowerCase()}`)
-    .join(", ");
-  client.say(target, `Available commands: ${command_list}`);
-  return command_list;
+  client.say(target, `Available commands: ${getCommands(target)}`);
 };
 
 // Add commands to the commands object
@@ -64,7 +66,7 @@ add('list', listCommands);
   @param {Array} args - Any arguments that need to be passed to the command
  */
 const commandSwitch = (name, msg, context, target) => {
-  if (listCommands(target).includes(name)){
+  if (getCommands(target).includes(name)){
     // Trim ! from command
     const short_name = name.substring(1);
     commands[short_name](msg, context, target);
