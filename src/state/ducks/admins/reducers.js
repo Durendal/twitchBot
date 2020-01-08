@@ -75,6 +75,16 @@ const adminReducer = (state = initialAdminState, action) => {
         }
       };
 
+    case types.ADMIN_ADD_CHANNEL:
+      return {
+        ...state,
+        [action.payload.channel]: {
+          [action.payload.channel]: {
+            admin_level: 5,
+          }
+        }
+      };
+
     default:
       return state;
   };

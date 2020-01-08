@@ -117,7 +117,7 @@ const clearVote = (msg, context, target) => {
   const { args, username } = parseMessage(msg, context, target);
   const poll_id = args[0];
   const option_id = pollSelectors.getUserVoteID(getState(), poll_id, username, target);
-  dispatch(pollOperations.delPollVote(poll_id, option_id, username));
+  dispatch(pollOperations.delPollVote(poll_id, option_id, username, target));
 };
 
 /**

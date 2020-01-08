@@ -122,9 +122,7 @@ const pollReducer = (state = initialPollState, action) => {
       };
 
     case types.POLL_VOTE_DEL:
-
-      const index = state
-        .polls[action.payload.poll_id]
+      const index = state[action.payload.channel][action.payload.poll_id]
         .poll_options[action.payload.option_id]
         .option_voters
         .indexOf(action.payload.voter_name);

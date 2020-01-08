@@ -1,5 +1,5 @@
-const { readdirSync, statSync } = require('fs');
-const { join } = require('path');
+import { readdirSync, statSync } from 'fs';
+import { join } from 'path';
 import { client } from 'src/utils/client';
 import "regenerator-runtime/runtime";
 
@@ -73,6 +73,7 @@ const commandSwitch = (name, msg, context, target) => {
   if (getCommands(target).includes(name)){
     // Trim ! from command
     const short_name = name.substring(1);
+    console.log(`short_name: ${short_name}`);
     commands[short_name](msg, context, target);
   }
   else

@@ -9,6 +9,7 @@ const { getState } = store;
   @param {Object} context - The context of the message being sent
  */
 const parseMessage = (msg, context, target) => {
+  console.log(`msg: ${msg}, context: ${context}, target: ${target}`);
   try {
     const username = getUserName(context);
     const commandName = msg.trim().split(" ")[0];

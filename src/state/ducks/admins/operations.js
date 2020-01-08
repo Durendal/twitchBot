@@ -40,8 +40,16 @@ const modAdminLevel = (username, channel, admin_level) => async (dispatch) => {
   }
 };
 
+const addAdminChannel = (channel) => async (dispatch) => {
+  try {
+    dispatch(actions.addAdminChannel({channel}));
+  } catch (error) {
+    console.log(error);
+  }
+}
 export {
   addAdmin,
   delAdmin,
   modAdminLevel,
+  addAdminChannel,
 };
