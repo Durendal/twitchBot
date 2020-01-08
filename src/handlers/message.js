@@ -16,6 +16,7 @@ const { getState, dispatch } = store;
   @param {Object} self - Our bot
  */
 const onMessageHandler = async (target, context, msg, self) => {
+  console.log(`target: ${target}`);
   const channel = target.substring(1);
 
   // Ignore if message is not a command or is sent from our bot
