@@ -12,12 +12,12 @@ const isAdmin = (state, username, channel) => (
 
 /* get a list of moderators for a given channel */
 const channelMods = (state, channel) => (
-  return Object.keys(state.admins[channel])
+  Object.keys(state.admins[channel])
 );
 
 /* check if the bot has any registered admins in the given channel */
 const inChannel = (state, channel) => (
-  return channel in state.admins
+  channel in state.admins
 );
 
 export {
