@@ -1,17 +1,5 @@
 import * as types from './types';
 
-/*
-  admin elements:
-  {
-    admins: [
-      durendalz: {
-        channels: [],
-        adminLevel: 5,
-      }
-    ]
-  }
-*/
-
 const initialAdminState = {
   durendalz: {
     durendalz: {

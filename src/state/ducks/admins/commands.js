@@ -8,8 +8,9 @@ const { dispatch, getState } = store;
 
 /**
   Write the context of the current user to the bots console.log
-  @param {String} target - The channel the user wrote the command in
-  @param {Object} context - The context of the user who wrote the command
+  @param {String} msg - The message passed from twitch chat
+  @param {Object} context - The user context of the message sender
+  @param {String} target - The target source/destination of msg
  */
 const checkContext = (msg, context, target) => {
   const { username, args, isAdmin } = parseMessage(msg, context, target);
@@ -21,8 +22,9 @@ const checkContext = (msg, context, target) => {
 
 /**
   Write the state of the bot to the bots console.log
-  @param {String} target - The channel the user wrote the command in
-  @param {Object} context - The context of the user who wrote the command
+  @param {String} msg - The message passed from twitch chat
+  @param {Object} context - The user context of the message sender
+  @param {String} target - The target source/destination of msg
  */
 const checkState = (msg, context, target) => {
   const { username, isAdmin } = parseMessage(msg, context, target);
@@ -35,9 +37,9 @@ const checkState = (msg, context, target) => {
 
 /**
   Add a user to the list of administrators
-  @param {String} user - The name of the user to add as an admin
-  @param {String} target - The twitch channel to add the mod to
-  @param {Object} context - The context of the user adding the mod
+  @param {String} msg - The message passed from twitch chat
+  @param {Object} context - The user context of the message sender
+  @param {String} target - The target source/destination of msg
  */
 const addMod = (msg, context, target) => {
 
@@ -59,9 +61,9 @@ const addMod = (msg, context, target) => {
 
 /**
   Add a user to the list of administrators
-  @param {String} user - The name of the user to delete from mods
-  @param {String} target - The twitch channel to delete the mod from
-  @param {Object} context - The context of the user removing the mod
+  @param {String} msg - The message passed from twitch chat
+  @param {Object} context - The user context of the message sender
+  @param {String} target - The target source/destination of msg
  */
 const delMod = (msg, context, target) => {
   const { username, args, isAdmin } = parseMessage(msg, context, target);
@@ -75,8 +77,9 @@ const delMod = (msg, context, target) => {
 
 /**
   List all currently set moderators (doesn't account for twitch mods)
-  @param {String} target - The twitch channel to check for moderators
-  @param {Object} context - The context of the user sending the command
+  @param {String} msg - The message passed from twitch chat
+  @param {Object} context - The user context of the message sender
+  @param {String} target - The target source/destination of msg
  */
 const listMods = (msg, context, target) => {
   const { isAdmin } = parseMessage(msg, context, target);

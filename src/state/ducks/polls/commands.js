@@ -17,34 +17,36 @@ const vote = (msg, context, target) => {
 
   const poll_id = args[0];
 
-  if(!pollSelectors.pollIsOpen(getState(), poll_id)) {
+  if(!pollSelectors.pollIsOpen(getState(), poll_id, target)) {
     logging.addLog(`${username} attempted to vote while voting was closed`, 'error');
     client.say(target, `Sorry ${username} Voting is currently closed.`);
     return;
   }
 
-  if(pollSelectors.pollExists(getState(), poll_id)) {
+  if(pollSelectors.pollExists(getState(), poll_id, target)) {
     const option_name = args.slice(1).join(" ");
-    const option_id = pollSelectors.getOptionIdByName(getState(), poll_id, option_name);
+    const option_id = pollSelectors.getOptionIdByName(getState(), poll_id, option_name, target);
 
-    logging.addLog(`${username} attempting to vote for ${option_name}`);
-
-    try{
-      dispatch(
-        pollOperations
-          .addPollVote(
-            poll_id,
-            pollSelectors
-              .getOptionIdByName(
-                getState(),
-                poll_id,
-                option_name
-              ),
-            username,
-          )
+    logging.addLog(`${username} attempting to vote for ${option_name} ID: ${option_id}`);
+    if(!pollSelectors.hasUserVoted(getState(), poll_id, username, target)) {
+      try{
+        dispatch(
+          pollOperations
+            .addPollVote(
+              poll_id,
+              option_id,
+              username,
+              target,
+            )
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      client.say(
+        target,
+        `User: ${username} has already voted on poll: ${poll_id}`,
       );
-    } catch (error) {
-      console.log(error);
     }
   } else {
     client.say(
@@ -62,7 +64,7 @@ const vote = (msg, context, target) => {
  */
 const listPolls = (msg, context, target) => {
   try {
-    pollSelectors.listPolls(getState())
+    pollSelectors.listPolls(getState(), target)
       .forEach(poll =>
         client.say(target, `Poll #${poll.poll_id}: ${poll.poll_name}`)
       );
@@ -81,7 +83,7 @@ const listOptions = (msg, context, target) => {
   const { args } = parseMessage(msg, context, target);
   const poll_id = args[0];
   try {
-    const option_list = pollSelectors.getOptionNames(getState(), poll_id);
+    const option_list = pollSelectors.getOptionNames(getState(), poll_id, target);
     client.say(target, `Option list: ${option_list}`);
   } catch (error) {
     console.log(error);
@@ -98,8 +100,8 @@ const listResults = (msg, context, target) => {
   const { username, args } = parseMessage(msg, context, target);
   const poll_id = args[0];
   try {
-    const results = pollSelectors.getResults(getState(), target, poll_id);
-    client.say(target, `Poll Results: ${JSON.stringify(results, null, 2)}`);
+    const results = pollSelectors.getResults(getState(), poll_id, target);
+    client.say(target, `Poll Results: ${results}`);
   } catch (error) {
     console.log(error);
   }
@@ -114,8 +116,8 @@ const listResults = (msg, context, target) => {
 const clearVote = (msg, context, target) => {
   const { args, username } = parseMessage(msg, context, target);
   const poll_id = args[0];
-  const option_id = pollSelectors.getUserVoteID(state, poll_id, username);
-  pollOperations.delPollVote(poll_id, option_id, username);
+  const option_id = pollSelectors.getUserVoteID(getState(), poll_id, username, target);
+  dispatch(pollOperations.delPollVote(poll_id, option_id, username));
 };
 
 /**
@@ -128,7 +130,7 @@ const topOption = (msg, context, target) => {
   const { args } = parseMessage(msg, context, target);
   const poll_id = args[0];
   try {
-    const top_option = pollSelectors.getTopOption(getState(), poll_id);
+    const top_option = pollSelectors.getTopOption(getState(), poll_id, target);
     client.say(target, `Highest voted: ${top_option}`);
   } catch (error) {
     console.log(error);
@@ -141,4 +143,5 @@ export {
   listOptions,
   clearVote,
   topOption,
+  listResults
 };
