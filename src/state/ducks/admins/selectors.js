@@ -2,6 +2,7 @@
 const getAdminLevel = (state, username, channel) => (
   state.admins[channel][username].admin_level
 )
+
 /* check if a user is an admin in a given channel */
 const isAdmin = (state, username, channel) => (
   Object.keys(state.admins[channel]).includes(username)
