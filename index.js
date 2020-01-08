@@ -1,6 +1,6 @@
 import "app-module-path/register";
 import { client } from 'src/utils/client';
-import { onMessageHandler, onConnectedHandler } from 'src/handlers';
+import { onMessageHandler, onConnectedHandler, onJoinHandler } from 'src/handlers';
 import store from 'src/state/store';
 const { subscribe, getState } = store;
 import { writeFileSync } from 'fs';
@@ -14,6 +14,7 @@ subscribe(() => {
 // Register our event handlers
 client.on('message', onMessageHandler);
 client.on('connected', onConnectedHandler);
+client.on('join', onJoinHandler);
 
 // Connect to Twitch:
 client.connect();
