@@ -49,6 +49,10 @@ Steps:
     Removes a moderator from the list
 ### !listmods
     Lists all moderators
+### !join <channel_name>
+    Have the bot join a channel
+### !part <channel_name>
+    Have the bot part a channel
 
 # Planned Improvements:
 
