@@ -3,7 +3,7 @@ import { onConnectedHandler } from 'src/handlers/connected';
 import { onJoinHandler } from 'src/handlers/join';
 import { onWhisperHandler } from 'src/handlers/whisper';
 
-module.exports = {
+export {
   onMessageHandler,
   onConnectedHandler,
   onJoinHandler,

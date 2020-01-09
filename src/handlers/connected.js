@@ -1,4 +1,4 @@
-const { addLog } = require('src/utils/logging');
+import { addLog } from 'src/utils/logging';
 
 /**
   Execute this anytime the bot connects
