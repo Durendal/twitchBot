@@ -43,20 +43,23 @@ const checkState = (msg, context, target) => {
  */
 const addMod = (msg, context, target) => {
 
-  const { username, args, isAdmin } = parseMessage(msg, context, target);
-
-  const user_to_mod = args[0];
-  const mod_level = args[1];
-
-  if(!isAdmin)
-    return;
-
-  console.log(`${username} attempting to mod ${user_to_mod} with level ${mod_level} in ${target}`);
   try {
+    const { username, args, isAdmin } = parseMessage(msg, context, target, 2, '!addmod <username> <admin_level>');
+
+    const user_to_mod = args[0];
+    const mod_level = args[1];
+
+    if(!isAdmin)
+      return;
+
+    console.log(`${username} attempting to mod ${user_to_mod} with level ${mod_level} in ${target}`);
+
     dispatch(adminOperations.addAdmin(user_to_mod, target, mod_level));
   } catch (error) {
-    console.log(error);
+    //console.log(error);
+    return;
   }
+
 };
 
 /**
@@ -66,13 +69,25 @@ const addMod = (msg, context, target) => {
   @param {String} target - The target source/destination of msg
  */
 const delMod = (msg, context, target) => {
-  const { username, args, isAdmin } = parseMessage(msg, context, target);
+  const { username, args, isAdmin } = parseMessage(msg, context, target, 1, '!delmod <username>');
   const user_to_unmod = args[0];
+  console.log(`${user_to_unmod} isAdmin: ${adminSelectors.isAdmin(getState(), user_to_unmod, target)}`);
+  try {
 
-  if(!isAdmin)
+
+    if(!isAdmin)
+      return;
+    console.log(`${user_to_unmod} isAdmin: ${adminSelectors.isAdmin(getState(), user_to_unmod, target)}`);
+    if(!adminSelectors.isAdmin(getState(), user_to_unmod, target)) {
+      client.say(target, `${user_to_unmod} is not a moderator.`);
+      return;
+    }
+    if(Object.keys(getState()['admins'][target]).includes(user_to_unmod))
+      dispatch(adminOperations.delAdmin(user_to_unmod, target));
+  } catch (error) {
+    //console.log(error);
     return;
-  if(Object.keys(getState()['admins'][target]).includes(user_to_unmod))
-    dispatch(adminOperations.delAdmin(user_to_unmod, target));
+  }
 };
 
 /**

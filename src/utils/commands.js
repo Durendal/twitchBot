@@ -80,10 +80,26 @@ const commandSwitch = (name, msg, context, target) => {
     client.say(target, `Unknown Command: ${name}`);
 };
 
+/**
+  Notify the user they have entered incorrect parameters to a command
+
+  @param {Integer} arg_length - number of arguments the user entered
+  @param {Integer} correct_length - The number of arguments expected by a command
+  @param {String} error_message - an error message to send the user
+  @param {String} username - the user that messed up
+ */
+const mismatchParameters = (arg_length, correct_length, error_message, username, target) => {
+  client.say(
+    target,
+    `${username}: Expected ${correct_length} parameters, got ${arg_length}. ${error_message}`
+  )
+}
+
 export {
   reloadCommands,
   commands,
   commandSwitch,
   add,
   loadCommands,
+  mismatchParameters,
 };

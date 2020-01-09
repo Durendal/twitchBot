@@ -33,7 +33,6 @@ const initialPollState = {
 
 const pollReducer = (state = initialPollState, action) => {
 
-
   switch(action.type) {
     case types.POLL_ADD:
 
@@ -43,7 +42,6 @@ const pollReducer = (state = initialPollState, action) => {
           ...state[action.payload.channel].slice(0, state[action.payload.channel].length),
           {
             poll_name: action.payload.name,
-            poll_id: state[channel].length,
             poll_is_open: false,
             poll_options: [],
           },
@@ -61,23 +59,22 @@ const pollReducer = (state = initialPollState, action) => {
       };
 
     case types.POLL_OPTION_ADD:
-
       return {
         ...state,
         [action.payload.channel]: [
-          ...state[action.payload.channel].slice(0, state[action.payload.channel].poll_options.length),
+          ...state[action.payload.channel].slice(0, action.payload.poll_id),
           {
             ...state[action.payload.channel][action.payload.poll_id],
             poll_options: [
-              ...state[action.payload.channel][action.payload.poll_id].poll_options.slice(),
+              ...state[action.payload.channel][action.payload.poll_id].poll_options.slice(0, state[action.payload.channel][action.payload.poll_id].poll_options.length),
               {
                 option_vote_count: 0,
                 option_voters: [],
-                option_name: action.payload.option_name,
-                option_id: state[action.payload.channel][action.payload.poll_id].poll_options.length,
+                option_name: action.payload.option_name
               },
             ],
           },
+          ...state[action.payload.channel].slice(action.payload.poll_id + 1),
         ],
       };
 
@@ -86,6 +83,7 @@ const pollReducer = (state = initialPollState, action) => {
       return {
         ...state,
         [action.payload.channel]: [
+          ...state[action.payload.channel].slice(0, action.payload.poll_id),
           {
             ...state[action.payload.channel][action.payload.poll_id],
             poll_options: [
@@ -93,6 +91,7 @@ const pollReducer = (state = initialPollState, action) => {
               ...state[action.payload.channel][action.payload.poll_id].poll_options.slice(action.payload.option_id + 1),
             ],
           },
+          ...state[action.payload.channel].slice(action.payload.poll_id + 1),
         ],
       };
 
@@ -151,37 +150,31 @@ const pollReducer = (state = initialPollState, action) => {
       };
 
     case types.POLL_ACTIVE_TRUE:
-
-      const poll_active_true = state[action.payload.channel].map((item, index) => {
-        if(index !== action.payload.poll_id)
-          return item;
-
-        return {
-          ...item,
-          poll_is_open: true,
-        }
-      });
-
       return {
-        poll_active_true
+        ...state,
+        [action.payload.channel]: [
+          ...state[action.payload.channel].slice(0, action.payload.poll_id),
+          {
+            ...state[action.payload.channel][action.payload.poll_id],
+            poll_is_open: true,
+          },
+          ...state[action.payload.channel].slice(action.payload.poll_id + 1),
+        ],
       };
 
     case types.POLL_ACTIVE_FALSE:
 
-      const poll_active_false = state[action.payload.channel].map((item, index) => {
-        if(index !== action.payload.poll_id)
-          return item;
-
-        return {
-          ...item,
-          poll_is_open: false,
-        }
-      });
-
       return {
-        poll_active_false
+        ...state,
+        [action.payload.channel]: [
+          ...state[action.payload.channel].slice(0, action.payload.poll_id),
+          {
+            ...state[action.payload.channel][action.payload.poll_id],
+            poll_is_open: false,
+          },
+          ...state[action.payload.channel].slice(action.payload.poll_id + 1),
+        ],
       };
-
     default:
       return state;
   };
