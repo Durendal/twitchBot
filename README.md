@@ -16,40 +16,52 @@ Steps:
 * `$ npm run start`
 
 
-# Commands
+# Modules
 
 ## Polls
 ### !vote \<poll id\> \<poll option\>
     Allows a user to submit a vote for <poll option> on <poll id> as long as it is a valid option listed in `!options <poll id>` and the user has no previously recorded vote.
-### !options \<poll id\>
+### !listoptions \<poll id\>
     Prints a list of all options available to vote for on <poll id> to the chat
-### !clear \<poll id\>
+### !clearvote \<poll id\>
     If a user has a previously recorded vote on <poll id> it will be cleared.
-### !results \<poll id\>
+### !listresults \<poll id\>
     Prints out a list of each elligible option on <poll id> and its current number of votes.
-### !top \<poll id\>
+### !topoption \<poll id\>
     Prints out the current highest voted option for <poll id>.
+### !addpoll \<poll_name\>
+    Add a new poll
+### !delpoll \<poll_id\>
+    Remove a poll
+### !addoption \<poll id\> \<option_name\>
+    Add a new option for a given poll
+### !deloption \<poll id\> \<option_name\>
+    Remove an option from a given poll
 
 ## Admins
-### !context
+### !checkcontext
     For debugging, it prints out the tmi.js context associated with a message to the bots console.
+### !checkstate
+    For debugging, it prints out the current redux store to the bots console.
 ### !addmod \<username\>
     Adds a new moderator to the list
 ### !delmod \<username\>
     Removes a moderator from the list
 ### !listmods
     Lists all moderators
-### !addmap \<map name\>
-    Adds a new map to the elligible map list (if its currently in state['winningMaps'] it will be removed)
-### !delmap \<map name\>
-    Removes a map from the elligible map list
 
 # Planned Improvements:
 
-* Generic votes not just maps
+* ~~Generic votes not just maps~~
 * ~~Integration with twitch channel administrators~~
 * Better documentation ![Kappa](https://static-cdn.jtvnw.net/emoticons/v1/25/1.0 "Kappa")
-* Multi-channel support
+* ~~Multi-channel support~~
 * eggdrop style random banter and absurdities
 * an easter egg or two.
-* replace homebrew state system with redux
+* ~~replace homebrew state system with redux~~
+
+# Creating additional modules
+
+A module is in essence just the types, actions, operations, selectors and reducer for its state. As well as an additional commands.js file which exports functions that are dynamically imported and mapped to commands the bot will respond to. Familiarity with the [Reducks pattern](https://github.com/erikras/ducks-modular-redux) will be very beneficial. Feel free to poke through src/state/ducks/admins and src/state/ducks/polls to get a sense of what is required.
+
+All commands share a common parameter set that includes the message, context, and target channel of the originating message. Using the parseMessage method values such as: username, commandName, args, isAdmin can be extracted and an additional 2 optional parameters can be sent to indicate a required number of parameters and error message for the command. If an invalid number of parameters is sent an exception will be raised and the user will be sent a message. Generally the error message should consist of an example of how to run a command e.g.: `!addmod <username> <admin_level>`
