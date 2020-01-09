@@ -1,9 +1,12 @@
-const { client, logging } = require('src/utils');
-const { state } = require('src/config');
-const { users, admins, maps, rounds } = require('src/commands');
-const { getUserName } = require('src/utils').users;
-const { isOpen } = require('src/utils').rounds;
-const { mapList } = require('src/utils').maps;
+import { logging } from 'src/utils';
+import { client } from 'src/utils/client';
+import { adminOperations, adminSelectors } from 'src/state/ducks/admins';
+import { pollOperations, pollSelectors } from 'src/state/ducks/polls';
+import store from 'src/state/store';
+import { parseMessage } from 'src/utils/messages';
+import { commandSwitch } from 'src/utils/commands';
+
+const { getState, dispatch } = store;
 
 /**
   Execute every time a message comes in
@@ -12,71 +15,23 @@ const { mapList } = require('src/utils').maps;
   @param {String} msg - The message sent by the user
   @param {Object} self - Our bot
  */
-function onMessageHandler (target, context, msg, self) {
+const onMessageHandler = async (target, context, msg, self) => {
+  console.log(`target: ${target}`);
+  const channel = target.substring(1);
 
-  // Ignore if message is a command or sent from our bot
-  if (self || !(msg.startsWith('!'))) { return; } // Ignore messages from the bot
+  // Ignore if message is not a command or is sent from our bot
+  if (self || !(msg.startsWith('!'))) { return; }
+  try {
+    // Extract command
+    const { commandName } = parseMessage(msg, context, channel);
 
-  // Extract username from context
-  const username = getUserName(context);
-  var usern = '';
-  var map = '';
-
-  // Parse command out of message
-  const commandName = msg.trim().split(" ")[0];
-  switch(commandName) {
-    case "!vote":
-      if(!isOpen()) {
-        logging.addLog(`${username} attempted to vote while voting was closed`, 'error');
-        client.client.say(target, `Sorry ${username} Voting is currently closed.`);
-        return;
-      }
-      map = msg.trim().split(" ").slice(1).join(" ");
-      logging.addLog(`${username} attempting to vote for ${map}`)
-      users.castVote(username, map, target);
-      logging.logMessage(target, `Votes: ${JSON.stringify(state["voters"])}`);
-      break;
-    case "!maps":
-      const list = mapList().join(', ');
-      client.client.say(target, `Map list: ${list}`);
-      break;
-    case "!clear":
-      users.clearVote(username, target);
-      break;
-    case "!results":
-      rounds.viewResults(target);
-      break;
-    case "!top":
-      client.client.say(target, `Top Map: ${maps.topMap()}`);
-      break;
-    case "!context":
-      admins.checkContext(target, context);
-      break;
-    case "!state":
-      admins.checkState(target, context);
-      break;
-    case "!addmod":
-      usern = msg.trim().split(" ").slice(1).join(" ");
-      admins.addMod(usern, target, context);
-      break;
-    case "!delmod":
-      usern = msg.trim().split(" ").slice(1).join(" ");
-      admins.delMod(usern, target, context);
-      break;
-    case "!listmods":
-      admins.listMods(target, context);
-      break;
-    case "!addmap":
-      map = msg.trim().split(" ").slice(1).join(" ");
-      maps.addMap(map, target, context);
-      break;
-    case "!delmap":
-      map = msg.trim().split(" ").slice(1).join(" ");
-      maps.delMap(map, target, context);
-      break;
-    default:
-      logging.logMessage(target, `* Unknown command ${commandName}`);
+    // Execute command
+    commandSwitch(commandName, msg, context, channel);
+  } catch (error) {
+    console.log(error);
   }
 }
 
-module.exports = { onMessageHandler };
+export {
+  onMessageHandler,
+};
