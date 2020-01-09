@@ -19,23 +19,23 @@ Steps:
 # Modules
 
 ## Polls
-### !vote \<poll id\> \<poll option\>
+### !vote \<poll_id\> \<poll_option\>
     Allows a user to submit a vote for <poll option> on <poll id> as long as it is a valid option listed in `!options <poll id>` and the user has no previously recorded vote.
-### !listoptions \<poll id\>
+### !listoptions \<poll_id\>
     Prints a list of all options available to vote for on <poll id> to the chat
-### !clearvote \<poll id\>
+### !clearvote \<poll_id\>
     If a user has a previously recorded vote on <poll id> it will be cleared.
-### !listresults \<poll id\>
+### !listresults \<poll_id\>
     Prints out a list of each elligible option on <poll id> and its current number of votes.
-### !topoption \<poll id\>
+### !topoption \<poll_id\>
     Prints out the current highest voted option for <poll id>.
 ### !addpoll \<poll_name\>
     Add a new poll
 ### !delpoll \<poll_id\>
     Remove a poll
-### !addoption \<poll id\> \<option_name\>
+### !addoption \<poll_id\> \<option_name\>
     Add a new option for a given poll
-### !deloption \<poll id\> \<option_name\>
+### !deloption \<poll_id\> \<option_name\>
     Remove an option from a given poll
 
 ## Admins
