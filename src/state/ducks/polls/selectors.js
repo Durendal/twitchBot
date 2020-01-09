@@ -94,8 +94,7 @@ const getUserVoteID = (state, poll_id, username, channel) => {
     .filter(option => (
       option.option_voters.includes(username)
     ))[0];
-  console.log(`voter: ${JSON.stringify(voter, null, 2)}`);
-  console.log(`option_id: ${getOptionId(state, voter, poll_id, channel)}`);
+
   return getOptionId(state, voter, poll_id, channel);
 };
 

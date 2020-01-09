@@ -207,7 +207,7 @@ const delOption = (msg, context, target) => {
     const option_name = args.slice(1).join(" ");
 
     const option_id = pollSelectors.getOptionIdByName(getState(), poll_id, option_name, target);
-    console.log(`option_id: ${option_id}`);
+
     if(isAdmin) {
       dispatch(pollOperations.delPollOption(poll_id, option_id, target));
     }
