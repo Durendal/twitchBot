@@ -37,6 +37,10 @@ Steps:
     Add a new option for a given poll
 ### !deloption \<poll_id\> \<option_name\>
     Remove an option from a given poll
+### !pollon \<poll_id\>
+    By default newly created polls are inactive, executing this command will open them for voting
+### !polloff \<poll_id\>
+    To end or pause a poll, execute this command.
 
 ## Admins
 ### !checkcontext
