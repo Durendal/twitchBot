@@ -33,15 +33,17 @@ const initialPollState = {
 
 const pollReducer = (state = initialPollState, action) => {
 
-  switch(action.type) {
-    case types.POLL_ADD:
+  const { type, payload } = action;
 
+  switch(type) {
+
+    case types.POLL_ADD:
       return {
         ...state,
-        [action.payload.channel]: [
-          ...state[action.payload.channel].slice(0, state[action.payload.channel].length),
+        [payload.channel]: [
+          ...state[payload.channel].slice(0, state[payload.channel].length),
           {
-            poll_name: action.payload.name,
+            poll_name: payload.name,
             poll_is_open: false,
             poll_options: [],
           },
@@ -49,132 +51,129 @@ const pollReducer = (state = initialPollState, action) => {
         };
 
     case types.POLL_DEL:
-
       return {
         ...state,
-        [action.payload.channel]: [
-          ...state[action.payload.channel].slice(0, action.payload.poll_id),
-          ...state[action.payload.channel].slice(action.payload.poll_id + 1),
+        [payload.channel]: [
+          ...state[payload.channel].slice(0, payload.poll_id),
+          ...state[payload.channel].slice(payload.poll_id + 1),
         ],
       };
 
     case types.POLL_OPTION_ADD:
       return {
         ...state,
-        [action.payload.channel]: [
-          ...state[action.payload.channel].slice(0, action.payload.poll_id),
+        [payload.channel]: [
+          ...state[payload.channel].slice(0, payload.poll_id),
           {
-            ...state[action.payload.channel][action.payload.poll_id],
+            ...state[payload.channel][payload.poll_id],
             poll_options: [
-              ...state[action.payload.channel][action.payload.poll_id].poll_options.slice(0, state[action.payload.channel][action.payload.poll_id].poll_options.length),
+              ...state[payload.channel][payload.poll_id].poll_options.slice(0, state[payload.channel][payload.poll_id].poll_options.length),
               {
                 option_vote_count: 0,
                 option_voters: [],
-                option_name: action.payload.option_name
+                option_name: payload.option_name
               },
             ],
           },
-          ...state[action.payload.channel].slice(action.payload.poll_id + 1),
+          ...state[payload.channel].slice(payload.poll_id + 1),
         ],
       };
 
     case types.POLL_OPTION_DEL:
-
       return {
         ...state,
-        [action.payload.channel]: [
-          ...state[action.payload.channel].slice(0, action.payload.poll_id),
+        [payload.channel]: [
+          ...state[payload.channel].slice(0, payload.poll_id),
           {
-            ...state[action.payload.channel][action.payload.poll_id],
+            ...state[payload.channel][payload.poll_id],
             poll_options: [
-              ...state[action.payload.channel][action.payload.poll_id].poll_options.slice(0, action.payload.option_id),
-              ...state[action.payload.channel][action.payload.poll_id].poll_options.slice(action.payload.option_id + 1),
+              ...state[payload.channel][payload.poll_id].poll_options.slice(0, payload.option_id),
+              ...state[payload.channel][payload.poll_id].poll_options.slice(payload.option_id + 1),
             ],
           },
-          ...state[action.payload.channel].slice(action.payload.poll_id + 1),
+          ...state[payload.channel].slice(payload.poll_id + 1),
         ],
       };
 
     case types.POLL_VOTE_ADD:
-
       return {
         ...state,
-        [action.payload.channel]: [
-            ...state[action.payload.channel].slice(0, action.payload.poll_id),
+        [payload.channel]: [
+            ...state[payload.channel].slice(0, payload.poll_id),
             {
-              ...state[action.payload.channel][action.payload.poll_id],
+              ...state[payload.channel][payload.poll_id],
               poll_options: [
-                ...state[action.payload.channel][action.payload.poll_id].poll_options.slice(0, action.payload.option_id),
+                ...state[payload.channel][payload.poll_id].poll_options.slice(0, payload.option_id),
                 {
-                  ...state[action.payload.channel][action.payload.poll_id].poll_options[action.payload.option_id],
-                  option_vote_count: state[action.payload.channel][action.payload.poll_id].poll_options[action.payload.option_id].option_vote_count + 1,
+                  ...state[payload.channel][payload.poll_id].poll_options[payload.option_id],
+                  option_vote_count: state[payload.channel][payload.poll_id].poll_options[payload.option_id].option_vote_count + 1,
                   option_voters: [
-                    ...state[action.payload.channel][action.payload.poll_id].poll_options[action.payload.option_id].option_voters.slice(),
-                    action.payload.voter_name,
+                    ...state[payload.channel][payload.poll_id].poll_options[payload.option_id].option_voters.slice(),
+                    payload.voter_name,
                   ],
                 },
-                ...state[action.payload.channel][action.payload.poll_id].poll_options.slice(action.payload.option_id + 1),
+                ...state[payload.channel][payload.poll_id].poll_options.slice(payload.option_id + 1),
               ],
             },
-            ...state[action.payload.channel].slice(action.payload.poll_id + 1),
+            ...state[payload.channel].slice(payload.poll_id + 1),
         ],
       };
 
     case types.POLL_VOTE_DEL:
-      const index = state[action.payload.channel][action.payload.poll_id]
-        .poll_options[action.payload.option_id]
+      const index = state[payload.channel][payload.poll_id]
+        .poll_options[payload.option_id]
         .option_voters
-        .indexOf(action.payload.voter_name);
+        .indexOf(payload.voter_name);
 
       return {
         ...state,
-        [action.payload.channel]: [
-          ...state[action.payload.channel].slice(0, action.payload.poll_id),
+        [payload.channel]: [
+          ...state[payload.channel].slice(0, payload.poll_id),
           {
-            ...state[action.payload.channel][action.payload.poll_id],
+            ...state[payload.channel][payload.poll_id],
             poll_options: [
-              ...state[action.payload.channel][action.payload.poll_id].poll_options.slice(0, action.payload.option_id),
+              ...state[payload.channel][payload.poll_id].poll_options.slice(0, payload.option_id),
               {
-                ...state[action.payload.channel][action.payload.poll_id].poll_options[action.payload.option_id],
-                option_vote_count: state[action.payload.channel][action.payload.poll_id].poll_options[action.payload.option_id].option_vote_count - 1,
+                ...state[payload.channel][payload.poll_id].poll_options[payload.option_id],
+                option_vote_count: state[payload.channel][payload.poll_id].poll_options[payload.option_id].option_vote_count - 1,
                 option_voters: [
-                  ...state[action.payload.channel][action.payload.poll_id].poll_options[action.payload.option_id].option_voters.slice(0, index),
-                  ...state[action.payload.channel][action.payload.poll_id].poll_options[action.payload.option_id].option_voters.slice(index + 1),
+                  ...state[payload.channel][payload.poll_id].poll_options[payload.option_id].option_voters.slice(0, index),
+                  ...state[payload.channel][payload.poll_id].poll_options[payload.option_id].option_voters.slice(index + 1),
                 ],
               },
-              ...state[action.payload.channel][action.payload.poll_id].poll_options.slice(action.payload.option_id + 1),
+              ...state[payload.channel][payload.poll_id].poll_options.slice(payload.option_id + 1),
             ],
           },
-          ...state[action.payload.channel].slice(action.payload.poll_id + 1),
+          ...state[payload.channel].slice(payload.poll_id + 1),
         ],
       };
 
     case types.POLL_ACTIVE_TRUE:
       return {
         ...state,
-        [action.payload.channel]: [
-          ...state[action.payload.channel].slice(0, action.payload.poll_id),
+        [payload.channel]: [
+          ...state[payload.channel].slice(0, payload.poll_id),
           {
-            ...state[action.payload.channel][action.payload.poll_id],
+            ...state[payload.channel][payload.poll_id],
             poll_is_open: true,
           },
-          ...state[action.payload.channel].slice(action.payload.poll_id + 1),
+          ...state[payload.channel].slice(payload.poll_id + 1),
         ],
       };
 
     case types.POLL_ACTIVE_FALSE:
-
       return {
         ...state,
-        [action.payload.channel]: [
-          ...state[action.payload.channel].slice(0, action.payload.poll_id),
+        [payload.channel]: [
+          ...state[payload.channel].slice(0, payload.poll_id),
           {
-            ...state[action.payload.channel][action.payload.poll_id],
+            ...state[payload.channel][payload.poll_id],
             poll_is_open: false,
           },
-          ...state[action.payload.channel].slice(action.payload.poll_id + 1),
+          ...state[payload.channel].slice(payload.poll_id + 1),
         ],
       };
+      
     default:
       return state;
   };
