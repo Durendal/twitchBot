@@ -106,10 +106,34 @@ const listMods = (msg, context, target) => {
   client.say(target, `Mods: ${admins.join(', ')}`);
 };
 
+const join = async (msg, context, target) => {
+  try {
+    const { isAdmin, args } = parseMessage(msg, context, target, 1, '!join <channel_name>');
+    if(isAdmin)
+      await client.join(args[0]);
+  } catch(error) {
+    //console.log(error);
+    return;
+  }
+};
+
+const part = async (msg, context, target) => {
+  try {
+    const { isAdmin, args } = parseMessage(msg, context, target, 1, '!join <channel_name>');
+    if(isAdmin)
+      await client.part(args[0]);
+  } catch(error) {
+    //console.log(error);
+    return;
+  }
+};
+
 export {
   checkContext,
   checkState,
   addMod,
   delMod,
   listMods,
+  join,
+  part,
 };
