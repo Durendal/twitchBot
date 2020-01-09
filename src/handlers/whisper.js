@@ -8,9 +8,9 @@ import { parseMessage } from 'src/utils/messages';
   @param {String} msg - The message sent to the bot
  */
 const onWhisperHandler = async (target, context, msg, self) => {
-  console.log(`target: ${target}, context: ${context}, msg: ${msg}, self: ${self}`);
+
   const { username, commandName, args } = parseMessage(msg, context, target);
-  console.log(`username: ${username}, commandName: ${commandName}, args: ${JSON.stringify(args, null, 2)}`);
+
   if(commandName === '!invite') {
     try {
       const mods = (await client.mods(target));

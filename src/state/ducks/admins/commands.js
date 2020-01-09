@@ -71,13 +71,10 @@ const addMod = (msg, context, target) => {
 const delMod = (msg, context, target) => {
   const { username, args, isAdmin } = parseMessage(msg, context, target, 1, '!delmod <username>');
   const user_to_unmod = args[0];
-  console.log(`${user_to_unmod} isAdmin: ${adminSelectors.isAdmin(getState(), user_to_unmod, target)}`);
+
   try {
-
-
     if(!isAdmin)
       return;
-    console.log(`${user_to_unmod} isAdmin: ${adminSelectors.isAdmin(getState(), user_to_unmod, target)}`);
     if(!adminSelectors.isAdmin(getState(), user_to_unmod, target)) {
       client.say(target, `${user_to_unmod} is not a moderator.`);
       return;

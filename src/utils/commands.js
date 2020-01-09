@@ -73,7 +73,6 @@ const commandSwitch = (name, msg, context, target) => {
   if (getCommands(target).includes(name)){
     // Trim ! from command
     const short_name = name.substring(1);
-    console.log(`short_name: ${short_name}`);
     commands[short_name](msg, context, target);
   }
   else
