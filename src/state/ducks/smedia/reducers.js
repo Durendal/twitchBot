@@ -1,6 +1,6 @@
 import * as types from './types';
 
-const initialPollState = {
+const initialSocialState = {
   durendalz: {
       facebook: '',
       twitter: '',
@@ -9,7 +9,7 @@ const initialPollState = {
   },
 };
 
-const smediaReducer = (state = initialPollState, action) => {
+const smediaReducer = (state = initialSocialState, action) => {
 
   const { type, payload } = action;
 
