@@ -1,4 +1,5 @@
 import { adminSelectors } from 'src/state/ducks/admins';
+import { botSelectors } from 'src/state/ducks/bots';
 import { mismatchParameters } from 'src/utils/commands';
 import store from 'src/state/store';
 
@@ -25,7 +26,7 @@ const parseMessage = (msg, context, target, params=0, errmsg='') => {
    throw new Error('Incorrect parameters');
   }
   const isAdmin = adminSelectors.isAdmin(getState(), username, target);
-
+  const isOwner = botSelectors.isOwner(getState(), username);
   return {
     username,
     commandName,
