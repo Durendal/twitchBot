@@ -1,9 +1,25 @@
-const BOT_JOIN_CHANNEL = 'bot/BOT_JOIN_CHANNEL';
-const BOT_PART_CHANNEL = 'bot/BOT_PART_CHANNEL';
-const BOT_CHANGE_OWNER = 'bot/BOT_CHANGE_OWNER';
+import * as types from './types';
+
+//join chan
+const joinChan = payload => ({
+  type: types.BOT_JOIN_CHANNEL
+});
+
+// part chan
+const partChan = payload => ({
+  type: types.BOT_PART_CHANNEL,
+  payload,
+});
+
+// change owner
+const changeOwner = payload => ({
+  type: types.BOT_CHANGE_OWNER,
+  payload,
+});
+
 
 export {
-  BOT_JOIN_CHANNEL,
-  BOT_PART_CHANNEL,
-  BOT_CHANGE_OWNER,
+  joinChan,
+  partChan,
+  changeOwner,
 };
