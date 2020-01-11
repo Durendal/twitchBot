@@ -67,10 +67,14 @@ const listCommands = (msg, context, target) => {
   var response = '';
   const { args } = parseMessage(msg, context, target, 1, '!list <module>');
   const mod = args[0];
+
+  // List modules
   if(mod === 'modules') {
     client.say(target, `Available Modules: ${Object.keys(list).join(", ")}`);
     return;
   }
+
+  // List commands within a given module
   list[mod]
     .forEach(command => {
       response += `!${command.toLowerCase()}, `;

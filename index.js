@@ -1,4 +1,5 @@
 import "app-module-path/register";
+import {} from 'dotenv/config';
 import { client } from 'src/utils/client';
 import { onMessageHandler, onConnectedHandler, onJoinHandler, onWhisperHandler } from 'src/handlers';
 import store from 'src/state/store';
