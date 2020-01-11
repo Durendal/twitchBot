@@ -14,7 +14,7 @@ const botReducer = (state = initialBotState, action) => {
       return {
         ...state,
         channels: [
-          state.channels.slice(),
+          ...state.channels.slice(),
           payload.channel,
         ],
       }
