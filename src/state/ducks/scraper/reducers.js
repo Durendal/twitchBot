@@ -1,8 +1,7 @@
 import * as types from './types';
-import { scraper } from 'src/config/scraper';
 
 const initialScraperState = {
-  weather_key: scraper.weather_api_key,
+  weather_key: process.env.WEATHER_API_KEY,
 };
 
 const scraperReducer = (state = initialScraperState, action) => {

@@ -1,5 +1,0 @@
-const scraper = {
-  weather_api_key: 'YOUR_API_KEY_HERE', // uses https://openweathermap.org API as its source
-};
-
-export { scraper };
