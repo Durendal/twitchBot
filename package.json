@@ -12,6 +12,7 @@
   "license": "GPL-3.0-or-later",
   "dependencies": {
     "app-module-path": "^2.2.0",
+    "axios": "^0.19.1",
     "babel-core": "^7.0.0-bridge.0",
     "fs": "0.0.1-security",
     "localstorage": "^1.0.1",

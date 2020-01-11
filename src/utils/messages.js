@@ -1,5 +1,5 @@
 import { adminSelectors } from 'src/state/ducks/admins';
-import { botSelectors } from 'src/state/ducks/bots';
+import { botSelectors } from 'src/state/ducks/bot';
 import { mismatchParameters } from 'src/utils/commands';
 import store from 'src/state/store';
 

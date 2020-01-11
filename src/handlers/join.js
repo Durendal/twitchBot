@@ -1,6 +1,8 @@
 import { addLog } from 'src/utils/logging';
 import { client } from 'src/utils/client';
 import { adminOperations, adminSelectors } from 'src/state/ducks/admins';
+import { triviaOperations, triviaSelectors } from 'src/state/ducks/trivia';
+import { botOperations, botSelectors } from 'src/state/ducks/bot';
 import store from 'src/state/store';
 const { dispatch, getState } = store;
 
@@ -16,6 +18,22 @@ const onJoinHandler = async (target, username, self) => {
   if(self) {
     // trim hashtag from channel
     const channel = target.substring(1);
+
+    // Update bot module with channel
+    if(!botSelectors.inChannel(getState(), channel))
+      try {
+        dispatch(botOperations.addChannel(channel));
+      } catch (error) {
+        console.log(error);
+      }
+
+    // Update trivia module with channel
+    if(!triviaSelectors.channelRegistered(getState(), channel))
+      try {
+        dispatch(triviaOperations.addChannel(channel));
+      } catch (error) {
+        console.log(error);
+      }
 
     // Check if the channel being joined exists in the admin state, if not add it.
     if(!adminSelectors.inChannel(getState(), channel))
@@ -36,6 +54,7 @@ const onJoinHandler = async (target, username, self) => {
     } catch (error) {
       console.log(error);
     }
+
   }
 };
 

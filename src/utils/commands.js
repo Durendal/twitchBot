@@ -1,6 +1,7 @@
 import { readdirSync, statSync } from 'fs';
 import { join } from 'path';
 import { client } from 'src/utils/client';
+import { parseMessage } from 'src/utils/messages';
 import "regenerator-runtime/runtime";
 
 /**
@@ -8,6 +9,7 @@ import "regenerator-runtime/runtime";
  */
 const commands = {};
 const mod = {};
+const list = {};
 
 const loadCommands = async() => {
   try {
@@ -16,11 +18,16 @@ const loadCommands = async() => {
 
     dirs.forEach(async dir => {
       mod[dir] = await import(`${base_dir}/state/ducks/${dir}/commands`);
+      list[dir] = [];
       Object.keys(mod[dir])
         .forEach(m => {
-          if(m !== dir) add(m, mod[dir][m])
+          if(m !== dir) {
+            list[dir].push(m);
+            add(m, mod[dir][m]);
+          }
         });
     });
+
   } catch (error) {
     console.log(error);
   }
@@ -57,7 +64,20 @@ const getCommands = (target) => {
   List all available commands
  */
 const listCommands = (msg, context, target) => {
-  client.say(target, `Available commands: ${getCommands(target)}`);
+  var response = '';
+  const { args } = parseMessage(msg, context, target, 1, '!list <module>');
+  const mod = args[0];
+  if(mod === 'modules') {
+    client.say(target, `Available Modules: ${Object.keys(list).join(", ")}`);
+    return;
+  }
+  list[mod]
+    .forEach(command => {
+      response += `!${command.toLowerCase()}, `;
+    });
+
+  response = response.substring(0, response.length - 1);
+  client.say(target, `Available ${mod} commands: ${response}`);
 };
 
 // Add commands to the commands object
@@ -101,4 +121,5 @@ export {
   add,
   loadCommands,
   mismatchParameters,
+  list,
 };

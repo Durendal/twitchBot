@@ -15,7 +15,7 @@ const botReducer = (state = initialBotState, action) => {
         ...state,
         channels: [
           state.channels.slice(),
-          payload.channel_name,
+          payload.channel,
         ],
       }
       break;
@@ -36,6 +36,11 @@ const botReducer = (state = initialBotState, action) => {
         owner: payload.owner,
       }
       break;
+
+    default:
+      return {
+        ...state,
+      }
   };
 };
 

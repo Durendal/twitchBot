@@ -3,7 +3,7 @@ import { client } from 'src/utils/client';
 import { logging } from 'src/utils';
 import { parseMessage, getUserName } from 'src/utils/messages';
 import store from 'src/state/store';
-
+import { list } from 'src/utils/commands';
 const { dispatch, getState } = store;
 
 /**

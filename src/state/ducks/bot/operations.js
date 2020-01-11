@@ -1,7 +1,4 @@
 import * as actions from './actions';
-import store from 'src/state/store';
-
-const { getState, dispatch } from 'store';
 
 /**
   update the list of channels the bot is idling in

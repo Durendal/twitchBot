@@ -1,12 +1,13 @@
 import * as types from './types';
 
 //join chan
-const joinChan = payload => ({
-  type: types.BOT_JOIN_CHANNEL
+const joinChannel = payload => ({
+  type: types.BOT_JOIN_CHANNEL,
+  payload,
 });
 
 // part chan
-const partChan = payload => ({
+const partChannel = payload => ({
   type: types.BOT_PART_CHANNEL,
   payload,
 });
@@ -19,7 +20,7 @@ const changeOwner = payload => ({
 
 
 export {
-  joinChan,
-  partChan,
+  joinChannel,
+  partChannel,
   changeOwner,
 };

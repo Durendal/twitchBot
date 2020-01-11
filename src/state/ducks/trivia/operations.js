@@ -1,8 +1,4 @@
 import * as actions from './actions';
-import * as selectors from './selectors';
-import store from 'src/state/store';
-
-const { getState, dispatch } from 'store';
 
 /**
   update the URL trivia is drawn from
@@ -22,8 +18,7 @@ const updateURL = (url) => async (dispatch) => {
  */
 const addChannel = (channel) => async (dispatch) => {
   try {
-    if(!selectors.channelRegistered(getState(), channel))
-      dispatch(actions.addChannel({ channel }));
+    dispatch(actions.addChannel({ channel }));
   } catch (error) {
     console.log(error);
   }
@@ -35,8 +30,7 @@ const addChannel = (channel) => async (dispatch) => {
  */
 const delChannel = (channel) => async (dispatch) => {
   try {
-    if(selectors.channelRegistered(getState(), channel))
-      dispatch(actions.delChannel({ channel }));
+    dispatch(actions.delChannel({ channel }));
   } catch (error) {
     console.log(error);
   }
@@ -49,8 +43,7 @@ const delChannel = (channel) => async (dispatch) => {
  */
 const updateLength = (length, channel) => async (dispatch) => {
   try {
-    if(selectors.channelRegistered(getState(), channel))
-      dispatch(actions.updateLength({ length, channel }));
+    dispatch(actions.updateLength({ length, channel }));
   } catch (error) {
     console.log(error);
   }
@@ -63,8 +56,7 @@ const updateLength = (length, channel) => async (dispatch) => {
  */
 const updateInterval = (interval, channel) => async (dispatch) => {
   try {
-    if(selectors.channelRegistered(getState(), channel))
-      dispatch(actions.updateInterval({ interval, channel }));
+    dispatch(actions.updateInterval({ interval, channel }));
   } catch (error) {
     console.log(error);
   }
@@ -77,8 +69,7 @@ const updateInterval = (interval, channel) => async (dispatch) => {
  */
 const updateCount = (count, channel) => async (dispatch) => {
   try {
-    if(selectors.channelRegistered(getState(), channel))
-      dispatch(actions.updateCount({ count, channel }));
+    dispatch(actions.updateCount({ count, channel }));
   } catch (error) {
     console.log(error);
   }
@@ -89,9 +80,9 @@ const updateCount = (count, channel) => async (dispatch) => {
   @param {String} username - The user to update
   @param {String} channel - The channel the bot is in
  */
-const updateWinner = (username, channel) => async (dispatch) => {
+const updateWinner = (username, channel, exists=true) => async (dispatch) => {
   try {
-    if(!selectors.userRegistered(getState, channel, username)
+    if(!exists)
       dispatch(actions.addWinner({ username, channel }));
     dispatch(actions.updateWinner({ username, channel }));
   } catch (error) {

@@ -31,7 +31,7 @@ const triviaReducer = (state = initialTriviaState, action) => {
           question_count: 10,
           active: false,
           winners: {},
-        };
+        },
       };
       break;
     case types.TRIVIA_DEL_CHANNEL:
@@ -97,7 +97,7 @@ const triviaReducer = (state = initialTriviaState, action) => {
           ...state[payload.channel],
           winners: {
             ...state[payload.channel].winners,
-            [payload.user]: {
+            [payload.username]: {
               score: 0,
             },
           },
@@ -110,7 +110,7 @@ const triviaReducer = (state = initialTriviaState, action) => {
           ...state[payload.channel],
           winners: {
             ...state[payload.channel].winners,
-            [payload.user]: {
+            [payload.username]: {
               ...state[payload.channel][payload.user],
               score: state[payload.channel][payload.user].score + payload.score,
             },

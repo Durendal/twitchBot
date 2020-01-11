@@ -1,0 +1,5 @@
+const SCRAPER_WEATHER_KEY = 'scraper/SCRAPER_WEATHER_KEY';
+
+export {
+  SCRAPER_WEATHER_KEY,
+};

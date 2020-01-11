@@ -18,9 +18,15 @@ const inChannel = (state, channel) => (
   state.bot.channels.includes(channel)
 );
 
+/* retrieve the numerical index of a channel in the store */
+const channelID = (state, channel) => (
+  state.bot.channels.indexOf(channel)
+);
+
 export {
   getChannels,
   getOwner,
   isOwner,
   inChannel,
+  channelID,
 };
