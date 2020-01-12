@@ -10,13 +10,16 @@ import "regenerator-runtime/runtime";
 const commands = {};
 const mod = {};
 const list = {};
+const blocked = JSON.parse(process.env.BLOCK_MODULES);
 
 const loadCommands = async() => {
+
   try {
     const base_dir = __dirname.split('/').slice(0, -1).join('/');
     const dirs = readdirSync(`${base_dir}/state/ducks/`).filter(f => statSync(join(`${base_dir}/state/ducks/`, f)).isDirectory());
 
     dirs.forEach(async dir => {
+      if(blocked.includes(dir)) return;
       mod[dir] = await import(`${base_dir}/state/ducks/${dir}/commands`);
       list[dir] = [];
       Object.keys(mod[dir])
@@ -94,9 +97,15 @@ add('list', listCommands);
  */
 const commandSwitch = (name, msg, context, target) => {
 
+  // Trim ! from command
+  const short_name = name.substring(1);
+  console.log(`${JSON.stringify(list)} in ${JSON.stringify(blocked)} === ${blocked.includes(short_name)}`);
+  if(blocked.includes(short_name)){
+    client.say(target, `${short_name} module has been disabled`);
+    return;
+  }
+
   if (getCommands(target).includes(name)){
-    // Trim ! from command
-    const short_name = name.substring(1);
     commands[short_name](msg, context, target);
   }
   else

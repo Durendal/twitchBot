@@ -1,0 +1,11 @@
+const ADD_COMMAND = 'commands/ADD_COMMAND';
+const DEL_COMMAND = 'commands/DEL_COMMAND';
+const ENABLE_COMMAND = 'commands/ENABLE_COMMAND';
+const DISABLE_COMMAND = 'commands/DISABLE_COMMAND';
+
+export {
+  ADD_COMMAND,
+  DEL_COMMAND,
+  ENABLE_COMMAND,
+  DISABLE_COMMAND,
+};
